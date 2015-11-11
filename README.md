@@ -21,6 +21,8 @@ gradle wrapper    # to create gradlew file.
 
 At this point of the project I don't know how far we can go with this idea!! The point is that I really like to make something similar of Factory Girl but due to the dynamic nature of Ruby, it's hard to say if we can have all major features there available. Anyway, I believe that Easy Factory would help to make our lives a little bit easier!!
 
-### The license
+## License
 
-Of course it will be available as an open source project but I didn't decide if it'll be Apache, MIT ou GNU.
+Easy factory is released under the MIT License:
+
+  * http://opensource.org/licenses/MIT

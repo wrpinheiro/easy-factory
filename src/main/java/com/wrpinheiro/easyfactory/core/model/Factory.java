@@ -8,5 +8,9 @@ import java.util.List;
 public class Factory {
     private String name;
     private String fullQualifiedClassName;
-    private List<Attribute<?>> attributes;
+    private AttributesList attributes;
+
+    public AttributesList getAttributes() {
+        return attributes;
+    }
 }

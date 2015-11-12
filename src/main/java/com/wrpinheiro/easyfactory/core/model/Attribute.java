@@ -9,4 +9,12 @@ package com.wrpinheiro.easyfactory.core.model;
 public class Attribute<T> {
     private String id;
     private T value;
+
+    public String getId() {
+        return this.id;
+    }
+
+    public T getValue() {
+        return this.value;
+    }
 }

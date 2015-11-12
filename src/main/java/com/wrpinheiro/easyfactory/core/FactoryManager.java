@@ -16,7 +16,7 @@ public class FactoryManager {
         this.factories = new HashMap<>();
     }
 
-    public static <T> T load(String factoryName) {
+    public static Factory load(String factoryName) {
         return null;
     }
 }

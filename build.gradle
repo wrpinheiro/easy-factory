@@ -10,6 +10,7 @@ version = '0.0.1-SNAPSHOT'
 
 dependencies {
   compile 'com.wrpinheiro.easyfactory:easy-factory-parser:0.0.1-SNAPSHOT'
+  compile 'org.antlr:antlr4-runtime:4.5.1-1'
   testCompile 'junit:junit:4.12'
 }
 

@@ -1,15 +1,19 @@
+apply plugin: 'antlr'
 apply plugin: 'java'
+apply plugin: 'maven'
 
 repositories {
   mavenLocal()
   mavenCentral()
 }
 
+group = 'com.wrpinheiro.easyfactory'
+
 sourceCompatibility = 1.8
 version = '0.0.1-SNAPSHOT'
 
 dependencies {
-  compile 'com.wrpinheiro.easyfactory:easy-factory-parser:0.0.1-SNAPSHOT'
+  antlr 'org.antlr:antlr4:4.5.1-1'
   compile 'org.antlr:antlr4-runtime:4.5.1-1'
   testCompile 'junit:junit:4.12'
 }

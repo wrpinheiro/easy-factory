@@ -6,6 +6,23 @@ Easy Factory is a great way to create mock data for tests.
 
 The idea of this project is to have something similar of [Thoughtbot's Factory Girl](https://github.com/thoughtbot/factory_girl), a solution widely adopted for Ruby developers.
 
+Currently it works only with a limited syntax for factory files. The following factories are examples of acceptable definitions.
+
+```
+factory empty_user, class br.com.easyfactory.model.User
+end
+```
+
+```
+factory simple_user, class br.com.easyfactory.model.User
+  id: 1234
+  nickname: "joseph"
+  email: "joseph@josephs.com"
+  name: "Joseph Climber"
+  address: "Any address you might like :-)"
+end
+```
+
 ## How to build?
 
 Use Gradle Wrapper to build this project
@@ -13,6 +30,12 @@ Use Gradle Wrapper to build this project
 ```
 gradle wrapper    # to create gradlew file.
 ./gradlew build   # to generate the parser files and compile.
+```
+
+If you want to install the JAR file in your local maven repository, execute:
+
+```
+./gradlew install
 ```
 
 ## Disclaimer

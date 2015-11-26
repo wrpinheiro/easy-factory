@@ -3,19 +3,21 @@ apply plugin: 'java'
 apply plugin: 'maven'
 
 repositories {
-  mavenLocal()
-  mavenCentral()
+    mavenLocal()
+    mavenCentral()
 }
 
 group = 'com.wrpinheiro.easyfactory'
-
-sourceCompatibility = 1.8
 version = '0.0.1-SNAPSHOT'
 
+sourceCompatibility = 1.8
+
 dependencies {
-  antlr 'org.antlr:antlr4:4.5.1-1'
-  compile 'org.antlr:antlr4-runtime:4.5.1-1'
-  testCompile 'junit:junit:4.12'
+    antlr 'org.antlr:antlr4:4.5.1-1'
+    compile 'commons-beanutils:commons-beanutils:1.9.2'
+    testCompile 'com.mscharhag.oleaster:oleaster-matcher:0.1.1'
+    testCompile 'com.mscharhag.oleaster:oleaster-runner:0.1.1'
+    testCompile 'junit:junit:4.12'
 }
 
 task wrapper(type: Wrapper) {

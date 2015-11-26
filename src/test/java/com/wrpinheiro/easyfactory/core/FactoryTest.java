@@ -1,34 +1,49 @@
 package com.wrpinheiro.easyfactory.core;
 
-import com.wrpinheiro.easyfactory.core.model.AttributesList;
+import com.mscharhag.oleaster.matcher.Matchers;
+import com.mscharhag.oleaster.runner.OleasterRunner;
+import com.wrpinheiro.easyfactory.core.model.Attribute;
 import com.wrpinheiro.easyfactory.core.model.Factory;
-import org.junit.Test;
+import com.wrpinheiro.easyfactory.core.model.User;
+import org.junit.runner.RunWith;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static com.mscharhag.oleaster.matcher.Matchers.*;
+import static com.mscharhag.oleaster.runner.StaticRunnerSupport.describe;
+import static com.mscharhag.oleaster.runner.StaticRunnerSupport.it;
 
-public class FactoryTest {
+@RunWith(OleasterRunner.class)
+public class FactoryTest {{
+    describe("#build", () -> {
+        it("must create an User instance", () -> {
+            Factory<User> userFactory = new Factory<>();
+            userFactory.setName("simple_user");
+            userFactory.setFullQualifiedClassName(User.class.getName());
+            userFactory.addAttribute(new Attribute("id", 1234));
+            userFactory.addAttribute(new Attribute("nickname", "john.doe"));
+            userFactory.addAttribute(new Attribute("email", "john.doe@doe.com"));
+            userFactory.addAttribute(new Attribute("name", "John Doe"));
 
-    private void assertIds(AttributesList attributes, String ... ids) {
-        for (int i = 0; i < ids.length; i++) {
-            assertEquals(ids[i], attributes.get(ids[i]).getId());
-        }
-    }
+            User user = userFactory.build();
 
-    @Test
-    public void testLoadUser() {
-        Factory factory = FactoryManager.load("simple_user");
+            expect(user).toBeNotNull();
+            expect(user.getId()).toEqual(1234);
+            expect(user.getNickname()).toEqual("john.doe");
+            expect(user.getEmail()).toEqual("john.doe@doe.com");
+            expect(user.getName()).toEqual("John Doe");
+        });
+    });
 
-        AttributesList attributes = factory.getAttributes();
+    describe("#load", () -> {
+        it("must load an user instance from file", () -> {
+            Factory<User> userFactory = FactoryManager.load("simple_user");
 
-        assertNotNull(attributes);
-        assertEquals(5, attributes);
+            User user = userFactory.build();
 
-        assertIds(attributes, "id", "nickname", "email", "name", "address");
-        assertEquals(1234, attributes.get("id").getId());
-        assertEquals("joseph", attributes.get("nickname").getId());
-        assertEquals("joseph@josephs.com", attributes.get("email").getId());
-        assertEquals("Joseph Climber", attributes.get("name").getId());
-        assertEquals("an address", attributes.get("address").getId());
-    }
-}
+            expect(user).toBeNotNull();
+            expect(user.getId()).toEqual(1234);
+            expect(user.getNickname()).toEqual("john.doe");
+            expect(user.getEmail()).toEqual("john.doe@doe.com");
+            expect(user.getName()).toEqual("John Doe");
+        });
+    });
+}}

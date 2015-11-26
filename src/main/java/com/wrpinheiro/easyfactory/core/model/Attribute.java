@@ -17,4 +17,10 @@ public class Attribute<T> {
     public T getValue() {
         return this.value;
     }
+
+    public Attribute() {}
+    public Attribute(String id, T value) {
+        this.id = id;
+        this.value = value;
+    }
 }

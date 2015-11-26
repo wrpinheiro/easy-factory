@@ -14,7 +14,7 @@ public class User {
     return this.id;
   }
 
-  public void setNickanem(String nickname) {
+  public void setNickname(String nickname) {
     this.nickname = nickname;
   }
 

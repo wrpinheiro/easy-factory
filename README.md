@@ -1,5 +1,7 @@
 # Easy factory
 
+[![Build Status](https://travis-ci.org/travis-ci/travis-web.png?branch=master)](https://travis-ci.org/wrpinheiro/easy-factory)
+
 ## What is Easy factory?
 
 Easy Factory is a great way to create mock data for tests.

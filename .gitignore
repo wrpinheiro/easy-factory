@@ -10,8 +10,6 @@ hs_err_pid*
 
 .gradle/
 build/
-gradlew
-gradlew.bat
 
 .idea
 *.iml

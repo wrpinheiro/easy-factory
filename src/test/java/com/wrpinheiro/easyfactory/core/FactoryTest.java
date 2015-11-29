@@ -32,7 +32,9 @@ public class FactoryTest {{
             expect(user.getName()).toEqual("John Doe");
         });
     });
+}}
 
+class FactoryTestIgnored {{
     describe("#load", () -> {
         it("must load an user instance from file", () -> {
             Factory<User> userFactory = FactoryManager.load("simple_user");
@@ -47,3 +49,4 @@ public class FactoryTest {{
         });
     });
 }}
+

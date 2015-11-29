@@ -39,7 +39,7 @@ public class EasyFactoryParserTest {
 
         ParseTree tree = parser.factoryDecl();
 
-        assertEquals("(factoryDecl factory simple_user , (classDecl class (qualifiedName br . com . easyfactory . model . User)) (attributeListDecl (attributeDecl id : (literal 1234)) (attributeDecl nickname : (literal \"joseph\")) (attributeDecl email : (literal \"joseph@josephs.com\")) (attributeDecl name : (literal \"Joseph Climber\")) (attributeDecl address : (literal \"an address\"))) end)", tree.toStringTree(parser));
+        assertEquals("(factoryDecl factory simple_user , (classDecl class (qualifiedName br . com . easyfactory . model . User)) (attributeListDecl (attributeDecl id : (literal 1234)) (attributeDecl nickname : (literal \"john.doe\")) (attributeDecl email : (literal \"john.doe@doe.com\")) (attributeDecl name : (literal \"John Doe\"))) end)", tree.toStringTree(parser));
     }
 
 }

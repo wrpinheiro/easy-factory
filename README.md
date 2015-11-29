@@ -1,6 +1,6 @@
 # Easy factory
 
-[![Build Status](https://travis-ci.org/travis-ci/travis-web.png?branch=master)](https://travis-ci.org/wrpinheiro/easy-factory)
+[![Build Status](https://travis-ci.org/wrpinheiro/easy-factory.svg?branch=master)](https://travis-ci.org/wrpinheiro/easy-factory)
 
 ## What is Easy factory?
 

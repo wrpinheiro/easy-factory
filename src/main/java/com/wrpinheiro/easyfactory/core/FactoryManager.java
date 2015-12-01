@@ -3,6 +3,7 @@ package com.wrpinheiro.easyfactory.core;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -41,7 +42,7 @@ public class FactoryManager {
     }
 
     private void loadFactories() {
-        try (Stream<Path> pathStream = Files.walk(Paths.get(DEFAULT_FACTORIES_DIR))) {
+        try (Stream<Path> pathStream = Files.walk(Paths.get(ClassLoader.getSystemResource(DEFAULT_FACTORIES_DIR).toURI()))) {
             pathStream.filter(this::isValidFactoryFile).map(path -> path.toUri()).forEach(factoryFile -> {
                 EasyFactoryParser parser = parse(factoryFile);
                 ParseTree tree = parser.factoriesDecl();
@@ -56,8 +57,8 @@ public class FactoryManager {
                 
                 walker.walk(listener, tree);
             });
-        } catch (IOException ioex) {
-
+        } catch (IOException | URISyntaxException ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -66,7 +67,7 @@ public class FactoryManager {
     }
     
     private EasyFactoryParser parse(URI factoryFile) {
-        try (InputStream sr = getClass().getClassLoader().getResourceAsStream(factoryFile.toURL().toString())) {
+        try (InputStream sr = factoryFile.toURL().openStream()) {
             ANTLRInputStream input = new ANTLRInputStream(sr);
             EasyFactoryLexer lexer = new EasyFactoryLexer(input);
 

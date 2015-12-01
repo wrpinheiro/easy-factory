@@ -6,10 +6,16 @@ import static com.mscharhag.oleaster.runner.StaticRunnerSupport.it;
 
 import java.util.Map;
 
+import org.junit.runner.RunWith;
+
+import com.mscharhag.oleaster.runner.OleasterRunner;
 import com.wrpinheiro.easyfactory.core.model.Factory;
 
-//@RunWith(OleasterRunner.class)
-public class FactoryManagerTest {{
+@RunWith(OleasterRunner.class)
+public class FactoryManagerTest {
+}
+
+class FactoryManagerTestIgnored  {{
     describe("", () -> {
         it ("", () -> {
           FactoryManager factoryManager = new FactoryManager();

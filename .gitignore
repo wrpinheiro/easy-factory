@@ -12,3 +12,8 @@ build/
 
 .idea
 *.iml
+/bin/
+
+.classpath
+.project
+.settings/

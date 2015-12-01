@@ -12,8 +12,7 @@ import static org.junit.Assert.assertEquals;
 public class EasyFactoryParserTest {
 
     private EasyFactoryParser parser(String factoryFile) {
-        try {
-            InputStream sr = getClass().getClassLoader().getResourceAsStream(factoryFile);
+        try (InputStream sr = getClass().getClassLoader().getResourceAsStream(factoryFile)) {
             ANTLRInputStream input = new ANTLRInputStream(sr);
             EasyFactoryLexer lexer = new EasyFactoryLexer(input);
             CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -26,7 +25,7 @@ public class EasyFactoryParserTest {
 
     @Test
     public void mustParseAFactoryWithoutAttributes() throws Exception {
-        EasyFactoryParser parser = this.parser("empty_user.ef");
+        EasyFactoryParser parser = this.parser("factories/empty_user.ef");
 
         ParseTree tree = parser.factoryDecl();
 
@@ -35,7 +34,7 @@ public class EasyFactoryParserTest {
 
     @Test
     public void mustParseAFactoryWithSimpleAttributes() throws Exception {
-        EasyFactoryParser parser = this.parser("simple_user.ef");
+        EasyFactoryParser parser = this.parser("factories/simple_user.ef");
 
         ParseTree tree = parser.factoryDecl();
 

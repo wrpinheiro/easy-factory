@@ -1,22 +1,82 @@
 package com.wrpinheiro.easyfactory.core;
 
-import com.wrpinheiro.easyfactory.core.model.Factory;
-
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
+
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
+
+import com.wrpinheiro.easyfactory.core.model.Factory;
+import com.wrpinheiro.easyfactory.parser.EasyFactoryBaseListener;
+import com.wrpinheiro.easyfactory.parser.EasyFactoryLexer;
+import com.wrpinheiro.easyfactory.parser.EasyFactoryParser;
 
 /**
  * @author Wellington Pinheiro <wellington.pinheiro@gmail.com>
  */
 public class FactoryManager {
-    private String factoryFilesPath;
-    private Map<String, Factory> factories;
 
-    public FactoryManager(String factoryFilesPath) {
+    private static final String DEFAULT_FACTORIES_DIR = "factories";
+    private static final String FACTORY_FILE_EXTENSION = "ef";
+
+    private Map<String, Factory<?>> factories;
+
+    public FactoryManager() {
         this.factories = new HashMap<>();
+
+        loadFactories();
+    }
+    
+    private boolean isValidFactoryFile(Path path) {
+        return !path.toFile().isDirectory() && path.toFile().getAbsolutePath().endsWith(FACTORY_FILE_EXTENSION);
     }
 
-    public static Factory load(String factoryName) {
+    private void loadFactories() {
+        try (Stream<Path> pathStream = Files.walk(Paths.get(DEFAULT_FACTORIES_DIR))) {
+            pathStream.filter(this::isValidFactoryFile).map(path -> path.toUri()).forEach(factoryFile -> {
+                EasyFactoryParser parser = parse(factoryFile);
+                ParseTree tree = parser.factoriesDecl();
+                ParseTreeWalker walker = new ParseTreeWalker();
+                
+                EasyFactoryBaseListener listener = new EasyFactoryBaseListener() {
+                    //TODO: must implement the tree listener that creates the factory. 
+                    @Override
+                    public void enterFactoryDecl(EasyFactoryParser.FactoryDeclContext ctx) {
+                    }
+                };
+                
+                walker.walk(listener, tree);
+            });
+        } catch (IOException ioex) {
+
+        }
+    }
+
+    public static <T> Factory<T> load(String factoryName) {
         return null;
+    }
+    
+    private EasyFactoryParser parse(URI factoryFile) {
+        try (InputStream sr = getClass().getClassLoader().getResourceAsStream(factoryFile.toURL().toString())) {
+            ANTLRInputStream input = new ANTLRInputStream(sr);
+            EasyFactoryLexer lexer = new EasyFactoryLexer(input);
+
+            return new EasyFactoryParser(new CommonTokenStream(lexer));
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public Map<String, Factory<?>> getFactories() {
+        return factories;
     }
 }

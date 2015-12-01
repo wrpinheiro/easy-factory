@@ -1,15 +1,13 @@
-package com.wrpinheiro.easyfactory.core;
+package com.wrpinheiro.easyfactory.core.model;
 
-import com.mscharhag.oleaster.matcher.Matchers;
-import com.mscharhag.oleaster.runner.OleasterRunner;
-import com.wrpinheiro.easyfactory.core.model.Attribute;
-import com.wrpinheiro.easyfactory.core.model.Factory;
-import com.wrpinheiro.easyfactory.core.model.User;
-import org.junit.runner.RunWith;
-
-import static com.mscharhag.oleaster.matcher.Matchers.*;
+import static com.mscharhag.oleaster.matcher.Matchers.expect;
 import static com.mscharhag.oleaster.runner.StaticRunnerSupport.describe;
 import static com.mscharhag.oleaster.runner.StaticRunnerSupport.it;
+
+import org.junit.runner.RunWith;
+
+import com.mscharhag.oleaster.runner.OleasterRunner;
+import com.wrpinheiro.easyfactory.core.FactoryManager;
 
 @RunWith(OleasterRunner.class)
 public class FactoryTest {{
@@ -18,10 +16,10 @@ public class FactoryTest {{
             Factory<User> userFactory = new Factory<>();
             userFactory.setName("simple_user");
             userFactory.setFullQualifiedClassName(User.class.getName());
-            userFactory.addAttribute(new Attribute("id", 1234));
-            userFactory.addAttribute(new Attribute("nickname", "john.doe"));
-            userFactory.addAttribute(new Attribute("email", "john.doe@doe.com"));
-            userFactory.addAttribute(new Attribute("name", "John Doe"));
+            userFactory.addAttribute(new Attribute<Integer>("id", 1234));
+            userFactory.addAttribute(new Attribute<String>("nickname", "john.doe"));
+            userFactory.addAttribute(new Attribute<String>("email", "john.doe@doe.com"));
+            userFactory.addAttribute(new Attribute<String>("name", "John Doe"));
 
             User user = userFactory.build();
 

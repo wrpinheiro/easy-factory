@@ -1,12 +1,11 @@
 package com.wrpinheiro.easyfactory.core.model;
 
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.collections.CollectionUtils;
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.commons.beanutils.BeanUtils;
 
 /**
  * @author Wellington Pinheiro <wellington.pinheiro@gmail.com>

@@ -1,4 +1,4 @@
-factory simple_user, class br.com.easyfactory.model.User
+factory user, class br.com.easyfactory.model.User
   id: 1234
   nickname: "joseph"
   email: "joseph@josephs.com"

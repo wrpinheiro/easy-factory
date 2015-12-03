@@ -16,6 +16,13 @@ public class Factory<T> {
 
     private Map<String, Attribute<?>> attributes = new HashMap<>();
 
+    public Factory() {
+    }
+
+    public Factory(String name) {
+        this.name = name;
+    }
+
     public Attribute<?> get(String id) {
         return attributes.get(id);
     }
@@ -44,16 +51,22 @@ public class Factory<T> {
             attributes.values().forEach(attribute -> {
                 try {
                     BeanUtils.setProperty(instance, attribute.getId(), attribute.getValue());
-                } catch (IllegalAccessException|InvocationTargetException ex) {
+                } catch (IllegalAccessException | InvocationTargetException ex) {
                     ex.printStackTrace();
                 }
             });
 
             return instance;
-        } catch (ClassNotFoundException|InstantiationException|IllegalAccessException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             ex.printStackTrace();
         }
 
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "Factory [name=" + name + ", fullQualifiedClassName=" + fullQualifiedClassName + ", attributes="
+                + attributes + "]";
     }
 }

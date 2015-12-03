@@ -16,10 +16,13 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
+import com.wrpinheiro.easyfactory.core.model.Attribute;
 import com.wrpinheiro.easyfactory.core.model.Factory;
 import com.wrpinheiro.easyfactory.parser.EasyFactoryBaseListener;
 import com.wrpinheiro.easyfactory.parser.EasyFactoryLexer;
 import com.wrpinheiro.easyfactory.parser.EasyFactoryParser;
+import com.wrpinheiro.easyfactory.parser.EasyFactoryParser.AttributeDeclContext;
+import com.wrpinheiro.easyfactory.parser.EasyFactoryParser.ClassDeclContext;
 
 /**
  * @author Wellington Pinheiro <wellington.pinheiro@gmail.com>
@@ -29,14 +32,12 @@ public class FactoryManager {
     private static final String DEFAULT_FACTORIES_DIR = "factories";
     private static final String FACTORY_FILE_EXTENSION = "ef";
 
-    private Map<String, Factory<?>> factories;
+    private Map<String, Factory<?>> factories = new HashMap<>();
 
     public FactoryManager() {
-        this.factories = new HashMap<>();
-
         loadFactories();
     }
-    
+
     private boolean isValidFactoryFile(Path path) {
         return !path.toFile().isDirectory() && path.toFile().getAbsolutePath().endsWith(FACTORY_FILE_EXTENSION);
     }
@@ -47,15 +48,12 @@ public class FactoryManager {
                 EasyFactoryParser parser = parse(factoryFile);
                 ParseTree tree = parser.factoriesDecl();
                 ParseTreeWalker walker = new ParseTreeWalker();
-                
-                EasyFactoryBaseListener listener = new EasyFactoryBaseListener() {
-                    //TODO: must implement the tree listener that creates the factory. 
-                    @Override
-                    public void enterFactoryDecl(EasyFactoryParser.FactoryDeclContext ctx) {
-                    }
-                };
-                
+
+                EasyFactoryListenerImpl listener = new EasyFactoryListenerImpl();
+
                 walker.walk(listener, tree);
+                
+                this.factories.putAll(listener.getFactories());
             });
         } catch (IOException | URISyntaxException ex) {
             ex.printStackTrace();
@@ -65,7 +63,7 @@ public class FactoryManager {
     public static <T> Factory<T> load(String factoryName) {
         return null;
     }
-    
+
     private EasyFactoryParser parse(URI factoryFile) {
         try (InputStream sr = factoryFile.toURL().openStream()) {
             ANTLRInputStream input = new ANTLRInputStream(sr);
@@ -79,5 +77,36 @@ public class FactoryManager {
 
     public Map<String, Factory<?>> getFactories() {
         return factories;
+    }
+}
+
+class EasyFactoryListenerImpl extends EasyFactoryBaseListener {
+    private Map<String, Factory<?>> factories;
+    private Factory<?> factory;
+    
+    public Map<String, Factory<?>> getFactories() {
+        return factories;
+    }
+
+    @Override
+    public void enterFactoriesDecl(EasyFactoryParser.FactoriesDeclContext ctx) {
+        factories = new HashMap<String, Factory<?>>();
+    }
+
+    @Override
+    public void enterFactoryDecl(EasyFactoryParser.FactoryDeclContext ctx) {
+        factory = new Factory<Object>(ctx.Identifier().getText());
+        factories.put(ctx.Identifier().getText(), factory);
+    }
+
+    @Override
+    public void enterClassDecl(ClassDeclContext ctx) {
+        factory.setFullQualifiedClassName(ctx.qualifiedName().getText());
+    }
+
+    @Override
+    public void enterAttributeDecl(AttributeDeclContext ctx) {
+        Attribute<?> attribute = new Attribute<Object>(ctx.Identifier().getText(), ctx.literal().getText());
+        factory.addAttribute(attribute);
     }
 }

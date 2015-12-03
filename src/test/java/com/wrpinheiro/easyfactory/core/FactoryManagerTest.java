@@ -12,17 +12,14 @@ import com.mscharhag.oleaster.runner.OleasterRunner;
 import com.wrpinheiro.easyfactory.core.model.Factory;
 
 @RunWith(OleasterRunner.class)
-public class FactoryManagerTest {
-}
-
-class FactoryManagerTestIgnored  {{
-    describe("", () -> {
-        it ("", () -> {
+public class FactoryManagerTest {{
+    describe("#getFactories", () -> {
+        it ("must load three example factories", () -> {
           FactoryManager factoryManager = new FactoryManager();
          Map<String, Factory<?>> factories = factoryManager.getFactories();
 
           expect(factories).toBeNotNull();
-          expect(factories.size()).toBeGreaterThan(0);
+          expect(factories.size()).toEqual(3);
         });
     });
 }}

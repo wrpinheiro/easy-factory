@@ -19,8 +19,14 @@ public class Attribute<T> {
     }
 
     public Attribute() {}
+
     public Attribute(String id, T value) {
         this.id = id;
         this.value = value;
+    }
+    
+    @Override
+    public String toString() {
+        return "Attribute [id=" + id + ", value=" + value + "]";
     }
 }

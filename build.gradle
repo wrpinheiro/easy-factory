@@ -10,6 +10,7 @@ buildReceiptLicense {
 apply plugin: 'antlr'
 apply plugin: 'java'
 apply plugin: 'maven'
+apply plugin: 'pmd'
 
 repositories {
     mavenLocal()
@@ -27,6 +28,38 @@ dependencies {
     testCompile 'com.mscharhag.oleaster:oleaster-matcher:0.1.1'
     testCompile 'com.mscharhag.oleaster:oleaster-runner:0.1.1'
     testCompile 'junit:junit:4.12'
+}
+
+pmd {
+    toolVersion = '5.4.1'
+    sourceSets = [sourceSets.main]
+    ignoreFailures = true
+    ruleSets = [
+		'java-basic',
+		'java-braces',
+		'java-clone',
+		'java-codesize',
+		'java-comments',
+		'java-controversial',
+		'java-coupling',
+		'java-design',
+		'java-empty',
+		'java-finalizers',
+		'java-imports',
+		'java-javabeans',
+		'java-junit',
+		'java-logging-jakarta-commons',
+		'java-logging-java',
+		'java-migrating',
+		'java-naming',
+		'java-optimizations',
+		'java-strictexception',
+		'java-strings',
+		'java-sunsecure',
+		'java-typeresolution',
+		'java-unnecessary',
+		'java-unusedcode'
+    ]
 }
 
 task wrapper(type: Wrapper) {

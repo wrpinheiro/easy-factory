@@ -24,14 +24,24 @@ import com.wrpinheiro.easyfactory.parser.impl.EasyFactoryListenerImpl;
 /**
  * @author Wellington Pinheiro <wellington.pinheiro@gmail.com>
  */
-public class FactoryManager {
+public final class FactoryManager {
 
     private static final String DEFAULT_FACTORIES_DIR = "factories";
     private static final String FACTORY_FILE_EXTENSION = "ef";
 
+    private static FactoryManager instance;
+
     private Map<String, Factory<?>> factories = new HashMap<>();
 
-    public FactoryManager() {
+    public static FactoryManager instance() {
+        if (instance == null) {
+            instance = new FactoryManager();
+        }
+
+        return instance;
+    }
+
+    private FactoryManager() {
         loadFactories();
     }
 
@@ -49,7 +59,7 @@ public class FactoryManager {
                 EasyFactoryListenerImpl listener = new EasyFactoryListenerImpl();
 
                 walker.walk(listener, tree);
-                
+
                 this.factories.putAll(listener.getFactories());
             });
         } catch (IOException | URISyntaxException ex) {
@@ -74,5 +84,10 @@ public class FactoryManager {
 
     public Map<String, Factory<?>> getFactories() {
         return factories;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> Factory<T> getFactory(String factoryName) {
+        return  (Factory<T>) FactoryManager.instance().getFactories().get(factoryName);
     }
 }

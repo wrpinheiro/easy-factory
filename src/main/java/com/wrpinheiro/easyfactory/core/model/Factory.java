@@ -39,6 +39,10 @@ public class Factory<T> {
         this.name = name;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
     public void setFullQualifiedClassName(String fqClassName) {
         this.fullQualifiedClassName = fqClassName;
     }

@@ -1,40 +1,49 @@
 package com.wrpinheiro.easyfactory.core.model;
 
 public class User {
-  private Integer id;
-  private String nickname;
-  private String email;
-  private String name;
+    private Integer id;
+    private String nickname;
+    private String email;
+    private String name;
+    private boolean admin;
 
-  public void setId(Integer id) {
-    this.id = id;
-  }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-  public Integer getId() {
-    return this.id;
-  }
+    public Integer getId() {
+        return this.id;
+    }
 
-  public void setNickname(String nickname) {
-    this.nickname = nickname;
-  }
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
-  public String getNickname() {
-    return this.nickname;
-  }
+    public String getNickname() {
+        return this.nickname;
+    }
 
-  public void setEmail(String email) {
-    this.email = email;
-  }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-  public String getEmail() {
-    return this.email;
-  }
+    public String getEmail() {
+        return this.email;
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-  public String getName() {
-    return this.name;
-  }
+    public String getName() {
+        return this.name;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+    
+    public boolean getAdmin() {
+        return this.admin;
+    }
 }

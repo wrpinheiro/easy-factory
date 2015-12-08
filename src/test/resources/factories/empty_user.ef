@@ -1,2 +1,2 @@
-factory empty_user, class br.com.easyfactory.model.User
+factory empty_user, class com.wrpinheiro.easyfactory.core.model.User
 end

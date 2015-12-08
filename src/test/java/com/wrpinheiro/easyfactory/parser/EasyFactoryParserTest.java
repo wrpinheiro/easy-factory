@@ -28,8 +28,8 @@ public class EasyFactoryParserTest {
         EasyFactoryParser parser = this.parser("factories/empty_user.ef");
 
         ParseTree tree = parser.factoryDecl();
-
-        assertEquals("(factoryDecl factory empty_user , (classDecl class (qualifiedName br . com . easyfactory . model . User)) attributeListDecl end)", tree.toStringTree(parser));
+// com . wrpinheiro . easyfactory . core . model
+        assertEquals("(factoryDecl factory empty_user , (classDecl class (qualifiedName com . wrpinheiro . easyfactory . core . model . User)) attributeListDecl end)", tree.toStringTree(parser));
     }
 
     @Test
@@ -38,7 +38,7 @@ public class EasyFactoryParserTest {
 
         ParseTree tree = parser.factoryDecl();
 
-        assertEquals("(factoryDecl factory simple_user , (classDecl class (qualifiedName br . com . easyfactory . model . User)) (attributeListDecl (attributeDecl id : (literal 1234)) (attributeDecl nickname : (literal \"john.doe\")) (attributeDecl email : (literal \"john.doe@doe.com\")) (attributeDecl name : (literal \"John Doe\"))) end)", tree.toStringTree(parser));
+        assertEquals("(factoryDecl factory simple_user , (classDecl class (qualifiedName com . wrpinheiro . easyfactory . core . model . User)) (attributeListDecl (attributeDecl id : (literal 1234)) (attributeDecl nickname : (literal \"john.doe\")) (attributeDecl email : (literal \"john.doe@doe.com\")) (attributeDecl name : (literal \"John Doe\"))) end)", tree.toStringTree(parser));
     }
 
 }

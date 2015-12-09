@@ -36,7 +36,20 @@ public class EasyFactoryListenerImpl extends EasyFactoryBaseListener {
 
     @Override
     public void enterAttributeDecl(AttributeDeclContext ctx) {
-        Attribute<?> attribute = new Attribute<Object>(ctx.Identifier().getText(), ctx.literal().getText());
+        Attribute<?> attribute = null;
+        String attributeName = ctx.Identifier().getText();
+
+        if (ctx.literal().StringLiteral() != null) {
+            attribute = new Attribute<Object>(attributeName, removeQuotes(ctx.literal().StringLiteral().getText()));
+        } else if (ctx.literal().IntegerLiteral() != null) {
+            attribute = new Attribute<Object>(attributeName, Integer.valueOf(ctx.literal().IntegerLiteral().getText()));
+        } else {
+            attribute = new Attribute<Object>(attributeName, null);
+        }
         factory.addAttribute(attribute);
+    }
+
+    private Object removeQuotes(String text) {
+        return text.length() > 0 ? text.subSequence(1, text.length() - 1) : "";
     }
 }

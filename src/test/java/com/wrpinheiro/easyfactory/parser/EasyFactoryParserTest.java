@@ -28,7 +28,6 @@ public class EasyFactoryParserTest {
         EasyFactoryParser parser = this.parser("factories/empty_user.ef");
 
         ParseTree tree = parser.factoryDecl();
-// com . wrpinheiro . easyfactory . core . model
         assertEquals("(factoryDecl factory empty_user , (classDecl class (qualifiedName com . wrpinheiro . easyfactory . core . model . User)) attributeListDecl end)", tree.toStringTree(parser));
     }
 

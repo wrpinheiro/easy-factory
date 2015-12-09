@@ -30,18 +30,17 @@ public class FactoryTest {
                 expect(user.getEmail()).toEqual("john.doe@doe.com");
                 expect(user.getName()).toEqual("John Doe");
             });
-            
+
             it("must create the User instance from factory loaded through FactoryManager", () -> {
                 Factory<User> userFactory = FactoryManager.getFactory("simple_user");
 
                 User user = userFactory.build();
 
-                //FIXME strings must be parsed without quotations
                 expect(user).toBeNotNull();
                 expect(user.getId()).toEqual(1234);
-                expect(user.getNickname()).toEqual("\"john.doe\"");
-                expect(user.getEmail()).toEqual("\"john.doe@doe.com\"");
-                expect(user.getName()).toEqual("\"John Doe\"");
+                expect(user.getNickname()).toEqual("john.doe");
+                expect(user.getEmail()).toEqual("john.doe@doe.com");
+                expect(user.getName()).toEqual("John Doe");
             });
         });
     }

@@ -37,7 +37,7 @@ public class FactoryManagerTest {
         describe(".getFactory", () -> {
             it("must get a factory for simple_user", () -> {
                 Factory<User> userFactory = FactoryManager.getFactory("simple_user");
-                
+
                 expect(userFactory).toBeNotNull();
                 expect(userFactory.getName()).toEqual("simple_user");
             });

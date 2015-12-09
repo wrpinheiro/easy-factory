@@ -47,6 +47,7 @@ public class Factory<T> {
         this.fullQualifiedClassName = fqClassName;
     }
 
+    @SuppressWarnings("unchecked")
     public T build() {
         try {
             Class<?> clazz = Class.forName(fullQualifiedClassName);

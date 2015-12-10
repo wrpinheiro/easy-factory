@@ -10,7 +10,7 @@ The idea of this project is to have something similar of [Thoughtbot's Factory G
 
 Below are some examples of factory definition.
 
-```
+```ruby
 factory empty_user, class br.com.easyfactory.model.User
 end
 ```
@@ -18,7 +18,7 @@ end
 This code above creates a factory with name `empty_user` for `User` class but doesn't set any of its attributes.
 
 
-```
+```ruby
 factory simple_user, class br.com.easyfactory.model.User
   id: 1234
   nickname: "joseph"
@@ -35,14 +35,14 @@ The `simple_user` factory allows to create instances of `User` and set its prope
 * Build the `easy-factory` project (see section `How to build` below)
 * Install the `jar` file in your local maven repository: 
 
-```
+```bash
 mvn install:install-file -Dfile=build/libs/easy-factory-0.0.1-SNAPSHOT.jar -DgroupId=com.wrpinheiro.easyfactory \
     -DartifactId=easy-factory -Dversion=0.0.1-SNAPSHOT -Dpackaging=jar
 ```
 
 * Add `easy-factory` and its dependencies* to your project `pom.xml`:
 
-```
+```xml
     <dependency>
         <groupId>commons-beanutils</groupId>
         <artifactId>commons-beanutils</artifactId>
@@ -67,7 +67,7 @@ mvn install:install-file -Dfile=build/libs/easy-factory-0.0.1-SNAPSHOT.jar -Dgro
 
 * Load and build the factories you need in your test files, such as:
 
-```
+```java
 Factory<Product> productFactory = FactoryManager.getFactory("television");
 Product product = productFactory.build();
 ```

@@ -6,14 +6,17 @@
 
 Easy Factory is a great way to create mock data for tests.
 
-The idea of this project is to have something similar of [Thoughtbot's Factory Girl](https://github.com/thoughtbot/factory_girl), a solution widely adopted for Ruby developers.
+The idea of this project is to have something similar of [Thoughtbot's Factory Girl](https://github.com/thoughtbot/factory_girl), a solution widely adopted for Ruby developers, in the Java world.
 
-Currently it works only with a limited syntax for factory files. The following factories are examples of acceptable definitions.
+Below are some examples of factory definition.
 
 ```
 factory empty_user, class br.com.easyfactory.model.User
 end
 ```
+
+This code above creates a factory with name `empty_user` for `User` class but doesn't set any of its attributes.
+
 
 ```
 factory simple_user, class br.com.easyfactory.model.User
@@ -25,13 +28,60 @@ factory simple_user, class br.com.easyfactory.model.User
 end
 ```
 
+The `simple_user` factory allows to create instances of `User` and set its properties `id`, `nickname`, `email`, `name`, and `address`
+
+## How to use?
+
+1. Build the `easy-factory` project (see section `How to build` below)
+2. Install the `jar` file in your local maven repository: 
+
+```
+mvn install:install-file -Dfile=build/libs/easy-factory-0.0.1-SNAPSHOT.jar -DgroupId=com.wrpinheiro.easyfactory \
+    -DartifactId=easy-factory -Dversion=0.0.1-SNAPSHOT -Dpackaging=jar
+```
+
+3. Add `easy-factory` and its dependencies* to your project `pom.xml`:
+
+```
+    <dependency>
+        <groupId>commons-beanutils</groupId>
+        <artifactId>commons-beanutils</artifactId>
+        <version>1.9.2</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.antlr</groupId>
+        <artifactId>antlr4-runtime</artifactId>
+        <version>4.5.1-1</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>com.wrpinheiro.easyfactory</groupId>
+        <artifactId>easy-factory</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <scope>test</scope>
+    </dependency>
+```
+
+4. Create a `factories` directory in the `src/test/resources/factories` directory and add the factory files inside of it.
+
+5. Load and build the factories you need in your test files, such as:
+
+```
+Factory<Product> productFactory = FactoryManager.getFactory("television");
+Product product = productFactory.build();
+```
+
+6. Be happy! 
+
 ## How to build?
 
 Use Gradle Wrapper to build this project
 
 ```
-gradle wrapper    # to create gradlew file.
-./gradlew build   # to generate the parser files and compile.
+gradle wrapper   # to create gradlew file.
+./gradlew build  # to generate the parser files and compile.
+./gradlew jar    # to create a jar file
 ```
 
 If you want to install the JAR file in your local maven repository, execute:

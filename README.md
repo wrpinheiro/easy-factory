@@ -32,15 +32,15 @@ The `simple_user` factory allows to create instances of `User` and set its prope
 
 ## How to use?
 
-1. Build the `easy-factory` project (see section `How to build` below)
-2. Install the `jar` file in your local maven repository: 
+* Build the `easy-factory` project (see section `How to build` below)
+* Install the `jar` file in your local maven repository: 
 
 ```
 mvn install:install-file -Dfile=build/libs/easy-factory-0.0.1-SNAPSHOT.jar -DgroupId=com.wrpinheiro.easyfactory \
     -DartifactId=easy-factory -Dversion=0.0.1-SNAPSHOT -Dpackaging=jar
 ```
 
-3. Add `easy-factory` and its dependencies* to your project `pom.xml`:
+* Add `easy-factory` and its dependencies* to your project `pom.xml`:
 
 ```
     <dependency>
@@ -63,16 +63,16 @@ mvn install:install-file -Dfile=build/libs/easy-factory-0.0.1-SNAPSHOT.jar -Dgro
     </dependency>
 ```
 
-4. Create a `factories` directory in the `src/test/resources/factories` directory and add the factory files inside of it.
+* Create a `factories` directory in the `src/test/resources/factories` directory and add the factory files inside of it.
 
-5. Load and build the factories you need in your test files, such as:
+* Load and build the factories you need in your test files, such as:
 
 ```
 Factory<Product> productFactory = FactoryManager.getFactory("television");
 Product product = productFactory.build();
 ```
 
-6. Be happy! 
+* Be happy! 
 
 ## How to build?
 

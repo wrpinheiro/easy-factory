@@ -42,5 +42,17 @@ public class FactoryManagerTest {
                 expect(userFactory.getName()).toEqual("simple_user");
             });
         });
+        
+        describe(".build", () -> {
+            it("must build an instance from simple_user", () -> {
+                User user = FactoryManager.build("simple_user");
+                    
+                expect(user).toBeNotNull();
+                expect(user.getId()).toEqual(Integer.valueOf(1234));
+                expect(user.getNickname()).toEqual("john.doe");
+                expect(user.getEmail()).toEqual("john.doe@doe.com");
+                expect(user.getName()).toEqual("John Doe");
+            });
+        });
     }
 }

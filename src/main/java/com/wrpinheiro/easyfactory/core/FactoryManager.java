@@ -26,13 +26,30 @@ import com.wrpinheiro.easyfactory.parser.impl.EasyFactoryListenerImpl;
  */
 public final class FactoryManager {
 
+    /**
+     * The factories files' directory 
+     */
     private static final String DEFAULT_FACTORIES_DIR = "factories";
+    
+    /**
+     * The factory files' extension
+     */
     private static final String FACTORY_FILE_EXTENSION = "ef";
 
+    /**
+     * The factory singleton instance
+     */
     private static FactoryManager instance;
 
+    /**
+     * The map of factories
+     */
     private Map<String, Factory<?>> factories = new HashMap<>();
 
+    /**
+     * Return the singleton instance of FactoryManager.
+     * @return the FactoryManager
+     */
     public static FactoryManager instance() {
         if (instance == null) {
             instance = new FactoryManager();
@@ -86,8 +103,14 @@ public final class FactoryManager {
         return factories;
     }
 
+    public static <T> T build(String factoryName) {
+        Factory<T> factory = getFactory(factoryName);
+
+        return factory.build();
+    }
+
     @SuppressWarnings("unchecked")
     public static <T> Factory<T> getFactory(String factoryName) {
-        return  (Factory<T>) FactoryManager.instance().getFactories().get(factoryName);
+        return (Factory<T>) FactoryManager.instance().getFactories().get(factoryName);
     }
 }

@@ -84,10 +84,6 @@ public final class FactoryManager {
         }
     }
 
-    public static <T> Factory<T> load(String factoryName) {
-        return null;
-    }
-
     private EasyFactoryParser parse(URI factoryFile) {
         try (InputStream sr = factoryFile.toURL().openStream()) {
             ANTLRInputStream input = new ANTLRInputStream(sr);
@@ -99,7 +95,7 @@ public final class FactoryManager {
         }
     }
 
-    public Map<String, Factory<?>> getFactories() {
+    private Map<String, Factory<?>> getFactories() {
         return factories;
     }
 

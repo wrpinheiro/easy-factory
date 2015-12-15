@@ -24,7 +24,7 @@ public class EasyFactoryParserTest {
     }
 
     @Test
-    public void mustParseAFactoryWithoutAttributes() throws Exception {
+    public void mustParseAFactoryWithoutAttributes() {
         EasyFactoryParser parser = this.parser("factories/empty_user.ef");
 
         ParseTree tree = parser.factoryDecl();
@@ -32,12 +32,20 @@ public class EasyFactoryParserTest {
     }
 
     @Test
-    public void mustParseAFactoryWithSimpleAttributes() throws Exception {
+    public void mustParseAFactoryWithSimpleAttributes() {
         EasyFactoryParser parser = this.parser("factories/simple_user.ef");
 
         ParseTree tree = parser.factoryDecl();
 
         assertEquals("(factoryDecl factory simple_user , (classDecl class (qualifiedName com . wrpinheiro . easyfactory . core . model . User)) (attributeListDecl (attributeDecl id : (literal 1234)) (attributeDecl nickname : (literal \"john.doe\")) (attributeDecl email : (literal \"john.doe@doe.com\")) (attributeDecl name : (literal \"John Doe\"))) end)", tree.toStringTree(parser));
     }
+    
+    @Test
+    public void mustParseAFactoryWithRelations() {
+        EasyFactoryParser parser = this.parser("factories/user_with_address.ef");
 
+        ParseTree tree = parser.factoriesDecl();
+
+        assertEquals("(factoriesDecl (factoryDecl factory address , (classDecl class (qualifiedName com . wrpinheiro . easyfactory . core . model . Address)) (attributeListDecl (attributeDecl street : (literal \"Mountain St\")) (attributeDecl number : (literal 46))) end) (factoryDecl factory user_with_address_relation , (classDecl class (qualifiedName com . wrpinheiro . easyfactory . core . model . User)) (attributeListDecl (attributeDecl id : (literal 1234)) (attributeDecl nickname : (literal \"john.doe\")) (attributeDecl email : (literal \"john.doe@doe.com\")) (attributeDecl name : (literal \"John Doe\")) (attributeDecl address : (buildFactoryDecl build ( address )))) end))", tree.toStringTree(parser));
+    }
 }

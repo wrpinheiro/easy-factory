@@ -13,6 +13,8 @@ import com.wrpinheiro.easyfactory.parser.EasyFactoryParser.ClassDeclContext;
 public class EasyFactoryListenerImpl extends EasyFactoryBaseListener {
     private Map<String, Factory<?>> factories;
     private Factory<?> factory;
+    
+    private Object literal;
 
     public Map<String, Factory<?>> getFactories() {
         return factories;
@@ -35,18 +37,19 @@ public class EasyFactoryListenerImpl extends EasyFactoryBaseListener {
     }
 
     @Override
-    public void enterAttributeDecl(AttributeDeclContext ctx) {
-        Attribute<?> attribute = null;
-        String attributeName = ctx.Identifier().getText();
-
-        if (ctx.literal().StringLiteral() != null) {
-            attribute = new Attribute<Object>(attributeName, removeQuotes(ctx.literal().StringLiteral().getText()));
-        } else if (ctx.literal().IntegerLiteral() != null) {
-            attribute = new Attribute<Object>(attributeName, Integer.valueOf(ctx.literal().IntegerLiteral().getText()));
-        } else {
-            attribute = new Attribute<Object>(attributeName, null);
-        }
+    public void exitAttributeDecl(AttributeDeclContext ctx) {
+        Attribute<?> attribute = new Attribute<Object>(ctx.Identifier().getText(), literal);
         factory.addAttribute(attribute);
+    }
+    
+    public void enterLiteral(EasyFactoryParser.LiteralContext ctx) {
+        if (ctx.StringLiteral() != null) {
+            literal = removeQuotes(ctx.StringLiteral().getText());
+        } else if (ctx.IntegerLiteral() != null) {
+            literal = Integer.valueOf(ctx.IntegerLiteral().getText());
+        } else {
+            literal = null;
+        }
     }
 
     private Object removeQuotes(String text) {

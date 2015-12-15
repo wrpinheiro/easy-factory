@@ -22,6 +22,7 @@ attributeListDecl
 
 attributeDecl
     :   Identifier ':' literal
+    |   Identifier ':' buildFactoryDecl
     ;
 
 literal
@@ -50,6 +51,10 @@ StringCharacters
 fragment
 StringCharacter
     :   ~["\\]
+    ;
+
+buildFactoryDecl
+    :   'build' '(' Identifier ')'
     ;
 
 qualifiedName

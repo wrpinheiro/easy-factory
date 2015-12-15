@@ -1,0 +1,12 @@
+factory address, class com.wrpinheiro.easyfactory.core.model.Address
+    street: "Mountain St"
+    number: 46
+end
+
+factory user_with_address_relation, class com.wrpinheiro.easyfactory.core.model.User
+    id: 1234
+    nickname: "john.doe"
+    email: "john.doe@doe.com"
+    name: "John Doe"
+    address: build(address)
+end

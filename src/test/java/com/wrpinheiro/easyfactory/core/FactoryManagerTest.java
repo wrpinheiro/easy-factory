@@ -7,7 +7,6 @@ import static com.mscharhag.oleaster.runner.StaticRunnerSupport.it;
 import org.junit.runner.RunWith;
 
 import com.mscharhag.oleaster.runner.OleasterRunner;
-import com.wrpinheiro.easyfactory.core.model.Factory;
 import com.wrpinheiro.easyfactory.core.model.User;
 
 @RunWith(OleasterRunner.class)

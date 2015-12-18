@@ -16,7 +16,6 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
-import com.wrpinheiro.easyfactory.core.model.Factory;
 import com.wrpinheiro.easyfactory.parser.EasyFactoryLexer;
 import com.wrpinheiro.easyfactory.parser.EasyFactoryParser;
 import com.wrpinheiro.easyfactory.parser.impl.EasyFactoryListenerImpl;

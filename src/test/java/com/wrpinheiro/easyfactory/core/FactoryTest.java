@@ -1,4 +1,4 @@
-package com.wrpinheiro.easyfactory.core.model;
+package com.wrpinheiro.easyfactory.core;
 
 import static com.mscharhag.oleaster.matcher.Matchers.expect;
 import static com.mscharhag.oleaster.runner.StaticRunnerSupport.describe;
@@ -7,7 +7,10 @@ import static com.mscharhag.oleaster.runner.StaticRunnerSupport.it;
 import org.junit.runner.RunWith;
 
 import com.mscharhag.oleaster.runner.OleasterRunner;
+import com.wrpinheiro.easyfactory.core.Attribute;
+import com.wrpinheiro.easyfactory.core.Factory;
 import com.wrpinheiro.easyfactory.core.FactoryManager;
+import com.wrpinheiro.easyfactory.core.model.User;
 
 @RunWith(OleasterRunner.class)
 public class FactoryTest {

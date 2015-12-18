@@ -1,4 +1,4 @@
-package com.wrpinheiro.easyfactory.core.model;
+package com.wrpinheiro.easyfactory.core;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;

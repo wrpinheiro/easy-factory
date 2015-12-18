@@ -1,4 +1,4 @@
-package com.wrpinheiro.easyfactory.core.model;
+package com.wrpinheiro.easyfactory.core;
 
 /**
  * This class represents an attribute of the factory.

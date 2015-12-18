@@ -3,8 +3,8 @@ package com.wrpinheiro.easyfactory.parser.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.wrpinheiro.easyfactory.core.model.Attribute;
-import com.wrpinheiro.easyfactory.core.model.Factory;
+import com.wrpinheiro.easyfactory.core.Attribute;
+import com.wrpinheiro.easyfactory.core.Factory;
 import com.wrpinheiro.easyfactory.parser.EasyFactoryBaseListener;
 import com.wrpinheiro.easyfactory.parser.EasyFactoryParser;
 import com.wrpinheiro.easyfactory.parser.EasyFactoryParser.AttributeDeclContext;
@@ -18,6 +18,10 @@ public class EasyFactoryListenerImpl extends EasyFactoryBaseListener {
 
     public Map<String, Factory<?>> getFactories() {
         return factories;
+    }
+    
+    private Object removeQuotes(String text) {
+        return text.length() > 0 ? text.subSequence(1, text.length() - 1) : "";
     }
 
     @Override
@@ -42,6 +46,7 @@ public class EasyFactoryListenerImpl extends EasyFactoryBaseListener {
         factory.addAttribute(attribute);
     }
     
+    @Override
     public void enterLiteral(EasyFactoryParser.LiteralContext ctx) {
         if (ctx.StringLiteral() != null) {
             literal = removeQuotes(ctx.StringLiteral().getText());
@@ -51,8 +56,8 @@ public class EasyFactoryListenerImpl extends EasyFactoryBaseListener {
             literal = null;
         }
     }
-
-    private Object removeQuotes(String text) {
-        return text.length() > 0 ? text.subSequence(1, text.length() - 1) : "";
+    
+    @Override
+    public void enterBuildFactoryDecl(EasyFactoryParser.BuildFactoryDeclContext ctx) { 
     }
 }

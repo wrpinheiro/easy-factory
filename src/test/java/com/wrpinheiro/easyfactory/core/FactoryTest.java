@@ -48,7 +48,7 @@ public class FactoryTest {
             });
             
             it("must create a factory with simple relationship", () -> {
-                Factory<Address> addressFactory = new Factory<Address>(DEFAULT_FACTORY_MANAGER, "address");
+                Factory<Address> addressFactory = new Factory<Address>(DEFAULT_FACTORY_MANAGER, "address-carl-peter");
                 addressFactory.setFullQualifiedClassName(Address.class.getName());
                 addressFactory.addAttribute(new Attribute<String>("street", "Carl Peter St."));
                 
@@ -56,7 +56,7 @@ public class FactoryTest {
                 
                 Factory<User> userFactory = new Factory<User>(DEFAULT_FACTORY_MANAGER, "user_with_address");
                 userFactory.setFullQualifiedClassName(User.class.getName());
-                userFactory.addAttribute(new Attribute<FactoryReference>("address", new FactoryReference("address")));
+                userFactory.addAttribute(new Attribute<FactoryReference>("address", new FactoryReference("address-carl-peter")));
                 
                 DEFAULT_FACTORY_MANAGER.addFactory(userFactory);
                 

@@ -6,6 +6,7 @@ public class User {
     private String email;
     private String name;
     private boolean admin;
+    private Address address;
 
     public void setId(Integer id) {
         this.id = id;
@@ -42,8 +43,16 @@ public class User {
     public void setAdmin(boolean admin) {
         this.admin = admin;
     }
-    
+
     public boolean getAdmin() {
         return this.admin;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }

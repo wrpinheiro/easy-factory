@@ -8,5 +8,6 @@ factory user_with_address_relation, class com.wrpinheiro.easyfactory.core.model.
     nickname: "john.doe"
     email: "john.doe@doe.com"
     name: "John Doe"
+
     address: build(address)
 end

@@ -3,8 +3,10 @@ package com.wrpinheiro.easyfactory.parser.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.wrpinheiro.easyfactory.FactoryReference;
 import com.wrpinheiro.easyfactory.core.Attribute;
 import com.wrpinheiro.easyfactory.core.Factory;
+import com.wrpinheiro.easyfactory.core.FactoryManager;
 import com.wrpinheiro.easyfactory.parser.EasyFactoryBaseListener;
 import com.wrpinheiro.easyfactory.parser.EasyFactoryParser;
 import com.wrpinheiro.easyfactory.parser.EasyFactoryParser.AttributeDeclContext;
@@ -13,13 +15,13 @@ import com.wrpinheiro.easyfactory.parser.EasyFactoryParser.ClassDeclContext;
 public class EasyFactoryListenerImpl extends EasyFactoryBaseListener {
     private Map<String, Factory<?>> factories;
     private Factory<?> factory;
-    
+
     private Object literal;
 
     public Map<String, Factory<?>> getFactories() {
         return factories;
     }
-    
+
     private Object removeQuotes(String text) {
         return text.length() > 0 ? text.subSequence(1, text.length() - 1) : "";
     }
@@ -31,8 +33,10 @@ public class EasyFactoryListenerImpl extends EasyFactoryBaseListener {
 
     @Override
     public void enterFactoryDecl(EasyFactoryParser.FactoryDeclContext ctx) {
-        factory = new Factory<Object>(ctx.Identifier().getText());
-        factories.put(ctx.Identifier().getText(), factory);
+        String factoryName = ctx.Identifier().getText();
+
+        factory = new Factory<Object>(factoryName);
+        factories.put(factoryName, factory);
     }
 
     @Override
@@ -45,7 +49,7 @@ public class EasyFactoryListenerImpl extends EasyFactoryBaseListener {
         Attribute<?> attribute = new Attribute<Object>(ctx.Identifier().getText(), literal);
         factory.addAttribute(attribute);
     }
-    
+
     @Override
     public void enterLiteral(EasyFactoryParser.LiteralContext ctx) {
         if (ctx.StringLiteral() != null) {
@@ -56,8 +60,9 @@ public class EasyFactoryListenerImpl extends EasyFactoryBaseListener {
             literal = null;
         }
     }
-    
+
     @Override
-    public void enterBuildFactoryDecl(EasyFactoryParser.BuildFactoryDeclContext ctx) { 
+    public void enterBuildFactoryDecl(EasyFactoryParser.BuildFactoryDeclContext ctx) {
+        literal = new FactoryReference(ctx.Identifier().getText());
     }
 }

@@ -7,6 +7,7 @@ import static com.mscharhag.oleaster.runner.StaticRunnerSupport.it;
 import org.junit.runner.RunWith;
 
 import com.mscharhag.oleaster.runner.OleasterRunner;
+import com.wrpinheiro.easyfactory.FactoryReference;
 import com.wrpinheiro.easyfactory.core.model.User;
 
 @RunWith(OleasterRunner.class)
@@ -18,6 +19,21 @@ public class FactoryManagerTest {
                 FactoryManager fm2 = FactoryManager.instance();
 
                 expect(fm1).toEqual(fm2);
+            });
+            
+            it("must load a factory with its references", () -> {
+                Factory<User> userFactory = FactoryManager.getFactory("user_with_address_relation");
+                
+                expect(userFactory).toBeNotNull();
+                
+                Attribute<?> attribute = userFactory.getAttributes().get("address");
+
+                expect(attribute).toBeNotNull();
+                expect(attribute.getValue().getClass()).toEqual(FactoryReference.class);
+                
+                FactoryReference factoryReference = (FactoryReference) attribute.getValue();
+                expect(factoryReference).toBeNotNull();
+                expect(factoryReference.getReference()).equals("address");
             });
         });
 

@@ -43,7 +43,7 @@ public final class FactoryManager {
     /**
      * The map of factories
      */
-    private Map<String, Factory<?>> factories = new HashMap<>();
+    private Map<String, Factory<?>> factories;
 
     /**
      * Return the singleton instance of FactoryManager.
@@ -58,14 +58,15 @@ public final class FactoryManager {
     }
 
     private FactoryManager() {
-        loadFactories();
     }
 
     private boolean isValidFactoryFile(Path path) {
         return !path.toFile().isDirectory() && path.toFile().getAbsolutePath().endsWith(FACTORY_FILE_EXTENSION);
     }
 
-    private void loadFactories() {
+    private synchronized void loadFactories() {
+        this.factories = new HashMap<>();
+
         try (Stream<Path> pathStream = Files.walk(Paths.get(ClassLoader.getSystemResource(DEFAULT_FACTORIES_DIR).toURI()))) {
             pathStream.filter(this::isValidFactoryFile).map(path -> path.toUri()).forEach(factoryFile -> {
                 EasyFactoryParser parser = parse(factoryFile);
@@ -95,6 +96,13 @@ public final class FactoryManager {
     }
 
     private Map<String, Factory<?>> getFactories() {
+        if (factories == null) {
+            synchronized(this) {
+                if (factories == null) {
+                    loadFactories();    
+                }
+            }
+        }
         return factories;
     }
 

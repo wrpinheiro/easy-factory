@@ -39,6 +39,8 @@ public final class FactoryManager {
      * The map of factories
      */
     private Map<String, Factory<?>> factories;
+    
+    public static final FactoryManager DEFAULT_FACTORY_MANAGER = new FactoryManager("DEFAULT");
 
     /**
      * The factory name
@@ -47,10 +49,6 @@ public final class FactoryManager {
 
     public FactoryManager(String name) {
         this.name = name;
-    }
-
-    public FactoryManager() {
-        this("UNNAMED");
     }
 
     private boolean isValidFactoryFile(Path path) {
@@ -64,7 +62,7 @@ public final class FactoryManager {
                 ParseTree tree = parser.factoriesDecl();
                 ParseTreeWalker walker = new ParseTreeWalker();
 
-                EasyFactoryListenerImpl listener = new EasyFactoryListenerImpl(new FactoryManager());
+                EasyFactoryListenerImpl listener = new EasyFactoryListenerImpl(DEFAULT_FACTORY_MANAGER);
 
                 walker.walk(listener, tree);
 

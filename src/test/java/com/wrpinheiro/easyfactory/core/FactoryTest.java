@@ -3,6 +3,7 @@ package com.wrpinheiro.easyfactory.core;
 import static com.mscharhag.oleaster.matcher.Matchers.expect;
 import static com.mscharhag.oleaster.runner.StaticRunnerSupport.describe;
 import static com.mscharhag.oleaster.runner.StaticRunnerSupport.it;
+import static com.wrpinheiro.easyfactory.core.FactoryManager.DEFAULT_FACTORY_MANAGER;
 
 import org.junit.runner.RunWith;
 
@@ -15,11 +16,9 @@ import com.wrpinheiro.easyfactory.core.model.User;
 public class FactoryTest {
     {
         describe("#build", () -> {
-            FactoryManager factoryManager = new FactoryManager();
-
             it("must create an User instance", () -> {
                 
-                Factory<User> userFactory = new Factory<>(factoryManager, "simple_user");
+                Factory<User> userFactory = new Factory<>(DEFAULT_FACTORY_MANAGER, "simple_user");
 
                 userFactory.setFullQualifiedClassName(User.class.getName());
                 userFactory.addAttribute(new Attribute<Integer>("id", 1234));
@@ -37,7 +36,7 @@ public class FactoryTest {
             });
 
             it("must create the User instance from factory loaded through FactoryManager", () -> {
-                Factory<User> userFactory = new FactoryManager().getFactory("simple_user");
+                Factory<User> userFactory = DEFAULT_FACTORY_MANAGER.getFactory("simple_user");
 
                 User user = userFactory.build();
 
@@ -49,19 +48,17 @@ public class FactoryTest {
             });
             
             it("must create a factory with simple relationship", () -> {
-                Factory<Address> addressFactory = new Factory<Address>(factoryManager, "address");
+                Factory<Address> addressFactory = new Factory<Address>(DEFAULT_FACTORY_MANAGER, "address");
                 addressFactory.setFullQualifiedClassName(Address.class.getName());
                 addressFactory.addAttribute(new Attribute<String>("street", "Carl Peter St."));
                 
-                FactoryManager fm = new FactoryManager();
+                DEFAULT_FACTORY_MANAGER.addFactory(addressFactory);
                 
-                fm.addFactory(addressFactory);
-                
-                Factory<User> userFactory = new Factory<User>(factoryManager, "user_with_address");
+                Factory<User> userFactory = new Factory<User>(DEFAULT_FACTORY_MANAGER, "user_with_address");
                 userFactory.setFullQualifiedClassName(User.class.getName());
                 userFactory.addAttribute(new Attribute<FactoryReference>("address", new FactoryReference("address")));
                 
-                fm.addFactory(userFactory);
+                DEFAULT_FACTORY_MANAGER.addFactory(userFactory);
                 
                 User user = userFactory.build();
                 

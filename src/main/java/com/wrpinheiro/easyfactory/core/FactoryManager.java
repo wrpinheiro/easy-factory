@@ -29,7 +29,7 @@ public final class FactoryManager {
      * The factories files' directory 
      */
     private static final String DEFAULT_FACTORIES_DIR = "factories";
-    
+
     /**
      * The factory files' extension
      */
@@ -65,8 +65,6 @@ public final class FactoryManager {
     }
 
     private synchronized void loadFactories() {
-        this.factories = new HashMap<>();
-
         try (Stream<Path> pathStream = Files.walk(Paths.get(ClassLoader.getSystemResource(DEFAULT_FACTORIES_DIR).toURI()))) {
             pathStream.filter(this::isValidFactoryFile).map(path -> path.toUri()).forEach(factoryFile -> {
                 EasyFactoryParser parser = parse(factoryFile);
@@ -77,11 +75,22 @@ public final class FactoryManager {
 
                 walker.walk(listener, tree);
 
-                this.factories.putAll(listener.getFactories());
+                addFactories(listener.getFactories());
             });
         } catch (IOException | URISyntaxException ex) {
             ex.printStackTrace();
         }
+    }
+
+    private void safeGetFactories() {
+        if (factories == null) {
+            factories = new HashMap<>();
+        }
+    }
+
+    private void addFactories(Map<String, Factory<?>> factories) {
+        safeGetFactories();
+        this.factories.putAll(factories);
     }
 
     private EasyFactoryParser parse(URI factoryFile) {
@@ -97,13 +106,18 @@ public final class FactoryManager {
 
     private Map<String, Factory<?>> getFactories() {
         if (factories == null) {
-            synchronized(this) {
+            synchronized (this) {
                 if (factories == null) {
-                    loadFactories();    
+                    loadFactories();
                 }
             }
         }
         return factories;
+    }
+    
+    public void addFactory(Factory<?> factory) {
+        safeGetFactories();
+        this.factories.put(factory.getName(), factory);
     }
 
     public static <T> T build(String factoryName) {
@@ -115,9 +129,5 @@ public final class FactoryManager {
     @SuppressWarnings("unchecked")
     public static <T> Factory<T> getFactory(String factoryName) {
         return (Factory<T>) FactoryManager.instance().getFactories().get(factoryName);
-    }
-
-    public void addFactory(Factory<?> factory) {
-        this.factories.put(factory.getName(), factory);
     }
 }

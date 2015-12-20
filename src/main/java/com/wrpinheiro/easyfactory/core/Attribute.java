@@ -1,10 +1,13 @@
 package com.wrpinheiro.easyfactory.core;
 
+import com.wrpinheiro.easyfactory.FactoryReference;
+
 /**
- * This class represents an attribute of the factory.
+ * A factory's attribute.
  *
+ * @param <T> the attribute type
+ * 
  * @author Wellington Pinheiro <wellington.pinheiro@gmail.com>
- * @param <T> the formal attribute type
  */
 public class Attribute<T> {
     private String id;
@@ -28,5 +31,13 @@ public class Attribute<T> {
     @Override
     public String toString() {
         return "Attribute [id=" + id + ", value=" + value + "]";
+    }
+
+    public boolean isReference() {
+        return value instanceof FactoryReference;
+    }
+    
+    public boolean isNotReference() {
+        return !isReference();
     }
 }

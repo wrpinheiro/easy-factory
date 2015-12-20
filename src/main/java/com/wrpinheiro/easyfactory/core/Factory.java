@@ -7,6 +7,8 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
 
+import com.wrpinheiro.easyfactory.FactoryReference;
+
 /**
  * @author Wellington Pinheiro <wellington.pinheiro@gmail.com>
  */
@@ -50,6 +52,10 @@ public class Factory<T> {
     public String setFullQualifiedClassName() {
         return fullQualifiedClassName;
     }
+    
+    private FactoryContext context() {
+        return FactoryContext.context();
+    }
 
     @SuppressWarnings("unchecked")
     public T build() {
@@ -57,11 +63,17 @@ public class Factory<T> {
             Class<?> clazz = Class.forName(fullQualifiedClassName);
             T instance = (T) clazz.newInstance();
 
-            attributes.values().forEach(attribute -> {
-                try {
-                    BeanUtils.setProperty(instance, attribute.getId(), attribute.getValue());
-                } catch (IllegalAccessException | InvocationTargetException ex) {
-                    ex.printStackTrace();
+            attributes.values().stream().filter(Attribute::isNotReference).forEach(attribute -> {
+                setBeanProperty(instance, attribute.getId(), attribute.getValue());
+            });
+
+            context().addInstance(this.getName(), instance);
+
+            attributes.values().stream().filter(Attribute::isReference).forEach(attribute -> {
+                Object reference = loadReference((FactoryReference)attribute.getValue());
+
+                if (reference != null) {
+                    setBeanProperty(instance, attribute.getId(), reference);
                 }
             });
 
@@ -71,6 +83,24 @@ public class Factory<T> {
         }
 
         return null;
+    }
+
+    public Object loadReference(FactoryReference factoryReference) {
+        String referenceName = factoryReference.getReference();
+        Object referenceInstance = context().instance(referenceName);
+        if (referenceInstance == null) {
+            referenceInstance = FactoryManager.build(referenceName);
+        }
+        
+        return referenceInstance;
+    }
+
+    private void setBeanProperty(T instance, String property, Object value) {
+        try {
+            BeanUtils.setProperty(instance, property, value);
+        } catch (IllegalAccessException | InvocationTargetException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override

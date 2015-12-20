@@ -7,6 +7,8 @@ import static com.mscharhag.oleaster.runner.StaticRunnerSupport.it;
 import org.junit.runner.RunWith;
 
 import com.mscharhag.oleaster.runner.OleasterRunner;
+import com.wrpinheiro.easyfactory.FactoryReference;
+import com.wrpinheiro.easyfactory.core.model.Address;
 import com.wrpinheiro.easyfactory.core.model.User;
 
 @RunWith(OleasterRunner.class)
@@ -41,6 +43,26 @@ public class FactoryTest {
                 expect(user.getNickname()).toEqual("john.doe");
                 expect(user.getEmail()).toEqual("john.doe@doe.com");
                 expect(user.getName()).toEqual("John Doe");
+            });
+            
+            it("must create a factory with simple relationship", () -> {
+                Factory<Address> addressFactory = new Factory<Address>("address");
+                addressFactory.setFullQualifiedClassName(Address.class.getName());
+                addressFactory.addAttribute(new Attribute<String>("street", "Carl Peter St."));
+                
+                FactoryManager.instance().addFactory(addressFactory);
+                
+                Factory<User> userFactory = new Factory<User>("user_with_address");
+                userFactory.setFullQualifiedClassName(User.class.getName());
+                userFactory.addAttribute(new Attribute<FactoryReference>("address", new FactoryReference("address")));
+                
+                FactoryManager.instance().addFactory(userFactory);
+                
+                User user = userFactory.build();
+                
+                expect(user).toBeNotNull();
+                expect(user.getAddress()).toBeNotNull();
+                expect(user.getAddress().getStreet()).equals("Carl Peter St.");
             });
         });
     }

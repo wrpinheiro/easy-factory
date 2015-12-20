@@ -20,17 +20,17 @@ public class FactoryManagerTest {
 
                 expect(fm1).toEqual(fm2);
             });
-            
+
             it("must load a factory with its references", () -> {
                 Factory<User> userFactory = FactoryManager.getFactory("user_with_address_relation");
-                
+
                 expect(userFactory).toBeNotNull();
-                
+
                 Attribute<?> attribute = userFactory.getAttributes().get("address");
 
                 expect(attribute).toBeNotNull();
                 expect(attribute.getValue().getClass()).toEqual(FactoryReference.class);
-                
+
                 FactoryReference factoryReference = (FactoryReference) attribute.getValue();
                 expect(factoryReference).toBeNotNull();
                 expect(factoryReference.getReference()).equals("address");
@@ -45,16 +45,25 @@ public class FactoryManagerTest {
                 expect(userFactory.getName()).toEqual("simple_user");
             });
         });
-        
+
         describe(".build", () -> {
             it("must build an instance from simple_user", () -> {
                 User user = FactoryManager.build("simple_user");
-                    
+
                 expect(user).toBeNotNull();
                 expect(user.getId()).toEqual(Integer.valueOf(1234));
                 expect(user.getNickname()).toEqual("john.doe");
                 expect(user.getEmail()).toEqual("john.doe@doe.com");
                 expect(user.getName()).toEqual("John Doe");
+            });
+            
+            it("must build a factory with reference", () -> {
+                User user = FactoryManager.build("user_with_address_relation");
+                
+                expect(user).toBeNotNull();
+                expect(user.getId()).toEqual(1234);
+                expect(user.getAddress()).toBeNotNull();
+                expect(user.getAddress().getStreet()).toEqual("Mountain St");
             });
         });
 

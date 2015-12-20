@@ -6,7 +6,6 @@ import java.util.Map;
 import com.wrpinheiro.easyfactory.FactoryReference;
 import com.wrpinheiro.easyfactory.core.Attribute;
 import com.wrpinheiro.easyfactory.core.Factory;
-import com.wrpinheiro.easyfactory.core.FactoryManager;
 import com.wrpinheiro.easyfactory.parser.EasyFactoryBaseListener;
 import com.wrpinheiro.easyfactory.parser.EasyFactoryParser;
 import com.wrpinheiro.easyfactory.parser.EasyFactoryParser.AttributeDeclContext;

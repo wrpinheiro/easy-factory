@@ -116,4 +116,8 @@ public final class FactoryManager {
     public static <T> Factory<T> getFactory(String factoryName) {
         return (Factory<T>) FactoryManager.instance().getFactories().get(factoryName);
     }
+
+    public void addFactory(Factory<?> factory) {
+        this.factories.put(factory.getName(), factory);
+    }
 }

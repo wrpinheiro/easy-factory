@@ -46,6 +46,10 @@ public class Factory<T> {
     public void setFullQualifiedClassName(String fqClassName) {
         this.fullQualifiedClassName = fqClassName;
     }
+    
+    public String setFullQualifiedClassName() {
+        return fullQualifiedClassName;
+    }
 
     @SuppressWarnings("unchecked")
     public T build() {

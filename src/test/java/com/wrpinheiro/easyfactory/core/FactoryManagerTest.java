@@ -57,5 +57,23 @@ public class FactoryManagerTest {
                 expect(user.getName()).toEqual("John Doe");
             });
         });
+
+        describe("#addFactory", () -> {
+            it("must add a factory to factory manager", () -> {
+                Factory<User> userFactory = new Factory<User>("user");
+                userFactory.setFullQualifiedClassName(User.class.getName());
+                userFactory.addAttribute(new Attribute<Integer>("id", 15423));
+
+                FactoryManager fm = FactoryManager.instance();
+
+                fm.addFactory(userFactory);
+                Factory<User> otherUserFactory = FactoryManager.getFactory("user");
+
+                expect(otherUserFactory).toBeNotNull();
+                expect(otherUserFactory.getName()).toEqual("user");
+                expect(otherUserFactory.setFullQualifiedClassName()).toEqual(User.class.getName());
+                expect(otherUserFactory.getAttributes().get("id").getValue()).toEqual(15423);
+            });
+        });
     }
 }

@@ -40,7 +40,17 @@ public final class FactoryManager {
      */
     private Map<String, Factory<?>> factories;
 
+    /**
+     * The factory name
+     */
+    private String name;
+
+    public FactoryManager(String name) {
+        this.name = name;
+    }
+
     public FactoryManager() {
+        this("UNNAMED");
     }
 
     private boolean isValidFactoryFile(Path path) {
@@ -97,7 +107,11 @@ public final class FactoryManager {
         }
         return factories;
     }
-    
+
+    public String getName() {
+        return this.name;
+    }
+
     public void addFactory(Factory<?> factory) {
         safeGetFactories();
         this.factories.put(factory.getName(), factory);
@@ -112,5 +126,10 @@ public final class FactoryManager {
     @SuppressWarnings("unchecked")
     public <T> Factory<T> getFactory(String factoryName) {
         return (Factory<T>) getFactories().get(factoryName);
+    }
+
+    @Override
+    public String toString() {
+        return "FactoryManager [name=" + name + "]";
     }
 }

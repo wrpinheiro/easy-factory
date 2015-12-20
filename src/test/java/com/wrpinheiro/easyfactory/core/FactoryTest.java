@@ -15,9 +15,12 @@ import com.wrpinheiro.easyfactory.core.model.User;
 public class FactoryTest {
     {
         describe("#build", () -> {
+            FactoryManager factoryManager = new FactoryManager();
+
             it("must create an User instance", () -> {
-                Factory<User> userFactory = new Factory<>();
-                userFactory.setName("simple_user");
+                
+                Factory<User> userFactory = new Factory<>(factoryManager, "simple_user");
+
                 userFactory.setFullQualifiedClassName(User.class.getName());
                 userFactory.addAttribute(new Attribute<Integer>("id", 1234));
                 userFactory.addAttribute(new Attribute<String>("nickname", "john.doe"));
@@ -34,7 +37,7 @@ public class FactoryTest {
             });
 
             it("must create the User instance from factory loaded through FactoryManager", () -> {
-                Factory<User> userFactory = FactoryManager.getFactory("simple_user");
+                Factory<User> userFactory = new FactoryManager().getFactory("simple_user");
 
                 User user = userFactory.build();
 
@@ -46,17 +49,19 @@ public class FactoryTest {
             });
             
             it("must create a factory with simple relationship", () -> {
-                Factory<Address> addressFactory = new Factory<Address>("address");
+                Factory<Address> addressFactory = new Factory<Address>(factoryManager, "address");
                 addressFactory.setFullQualifiedClassName(Address.class.getName());
                 addressFactory.addAttribute(new Attribute<String>("street", "Carl Peter St."));
                 
-                FactoryManager.instance().addFactory(addressFactory);
+                FactoryManager fm = new FactoryManager();
                 
-                Factory<User> userFactory = new Factory<User>("user_with_address");
+                fm.addFactory(addressFactory);
+                
+                Factory<User> userFactory = new Factory<User>(factoryManager, "user_with_address");
                 userFactory.setFullQualifiedClassName(User.class.getName());
                 userFactory.addAttribute(new Attribute<FactoryReference>("address", new FactoryReference("address")));
                 
-                FactoryManager.instance().addFactory(userFactory);
+                fm.addFactory(userFactory);
                 
                 User user = userFactory.build();
                 

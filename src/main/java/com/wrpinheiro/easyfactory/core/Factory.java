@@ -17,12 +17,13 @@ public class Factory<T> {
     private String fullQualifiedClassName;
 
     private Map<String, Attribute<?>> attributes = new HashMap<>();
+    private FactoryManager factoryManager;
 
-    public Factory() {
-    }
-
-    public Factory(String name) {
+    public Factory(FactoryManager factoryManager, String name) {
+        this.factoryManager = factoryManager;
+        
         this.name = name;
+        this.factoryManager.addFactory(this);
     }
 
     public Attribute<?> get(String id) {
@@ -89,7 +90,7 @@ public class Factory<T> {
         String referenceName = factoryReference.getReference();
         Object referenceInstance = context().instance(referenceName);
         if (referenceInstance == null) {
-            referenceInstance = FactoryManager.build(referenceName);
+            referenceInstance = factoryManager.build(referenceName);
         }
         
         return referenceInstance;

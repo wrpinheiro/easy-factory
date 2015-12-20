@@ -36,28 +36,11 @@ public final class FactoryManager {
     private static final String FACTORY_FILE_EXTENSION = "ef";
 
     /**
-     * The factory singleton instance
-     */
-    private static FactoryManager instance;
-
-    /**
      * The map of factories
      */
     private Map<String, Factory<?>> factories;
 
-    /**
-     * Return the singleton instance of FactoryManager.
-     * @return the FactoryManager
-     */
-    public static FactoryManager instance() {
-        if (instance == null) {
-            instance = new FactoryManager();
-        }
-
-        return instance;
-    }
-
-    private FactoryManager() {
+    public FactoryManager() {
     }
 
     private boolean isValidFactoryFile(Path path) {
@@ -71,7 +54,7 @@ public final class FactoryManager {
                 ParseTree tree = parser.factoriesDecl();
                 ParseTreeWalker walker = new ParseTreeWalker();
 
-                EasyFactoryListenerImpl listener = new EasyFactoryListenerImpl();
+                EasyFactoryListenerImpl listener = new EasyFactoryListenerImpl(new FactoryManager());
 
                 walker.walk(listener, tree);
 
@@ -120,14 +103,14 @@ public final class FactoryManager {
         this.factories.put(factory.getName(), factory);
     }
 
-    public static <T> T build(String factoryName) {
+    public <T> T build(String factoryName) {
         Factory<T> factory = getFactory(factoryName);
 
         return factory.build();
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> Factory<T> getFactory(String factoryName) {
-        return (Factory<T>) FactoryManager.instance().getFactories().get(factoryName);
+    public <T> Factory<T> getFactory(String factoryName) {
+        return (Factory<T>) getFactories().get(factoryName);
     }
 }

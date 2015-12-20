@@ -14,15 +14,8 @@ import com.wrpinheiro.easyfactory.core.model.User;
 public class FactoryManagerTest {
     {
         describe(".instance", () -> {
-            it("must have only one factory instance", () -> {
-                FactoryManager fm1 = FactoryManager.instance();
-                FactoryManager fm2 = FactoryManager.instance();
-
-                expect(fm1).toEqual(fm2);
-            });
-
             it("must load a factory with its references", () -> {
-                Factory<User> userFactory = FactoryManager.getFactory("user_with_address_relation");
+                Factory<User> userFactory = new FactoryManager().getFactory("user_with_address_relation");
 
                 expect(userFactory).toBeNotNull();
 
@@ -39,7 +32,7 @@ public class FactoryManagerTest {
 
         describe(".getFactory", () -> {
             it("must get a factory for simple_user", () -> {
-                Factory<User> userFactory = FactoryManager.getFactory("simple_user");
+                Factory<User> userFactory = new FactoryManager().getFactory("simple_user");
 
                 expect(userFactory).toBeNotNull();
                 expect(userFactory.getName()).toEqual("simple_user");
@@ -48,7 +41,7 @@ public class FactoryManagerTest {
 
         describe(".build", () -> {
             it("must build an instance from simple_user", () -> {
-                User user = FactoryManager.build("simple_user");
+                User user = new FactoryManager().build("simple_user");
 
                 expect(user).toBeNotNull();
                 expect(user.getId()).toEqual(Integer.valueOf(1234));
@@ -58,7 +51,7 @@ public class FactoryManagerTest {
             });
             
             it("must build a factory with reference", () -> {
-                User user = FactoryManager.build("user_with_address_relation");
+                User user = new FactoryManager().build("user_with_address_relation");
                 
                 expect(user).toBeNotNull();
                 expect(user.getId()).toEqual(1234);
@@ -68,15 +61,17 @@ public class FactoryManagerTest {
         });
 
         describe("#addFactory", () -> {
+            FactoryManager factoryManager = new FactoryManager();
+            
             it("must add a factory to factory manager", () -> {
-                Factory<User> userFactory = new Factory<User>("user");
+                Factory<User> userFactory = new Factory<User>(factoryManager, "user");
                 userFactory.setFullQualifiedClassName(User.class.getName());
                 userFactory.addAttribute(new Attribute<Integer>("id", 15423));
 
-                FactoryManager fm = FactoryManager.instance();
+                FactoryManager fm = new FactoryManager();
 
                 fm.addFactory(userFactory);
-                Factory<User> otherUserFactory = FactoryManager.getFactory("user");
+                Factory<User> otherUserFactory = fm.getFactory("user");
 
                 expect(otherUserFactory).toBeNotNull();
                 expect(otherUserFactory.getName()).toEqual("user");

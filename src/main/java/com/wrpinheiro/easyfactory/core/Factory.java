@@ -23,7 +23,6 @@ public class Factory<T> {
         this.factoryManager = factoryManager;
         
         this.name = name;
-        this.factoryManager.addFactory(this);
     }
 
     public Attribute<?> get(String id) {
@@ -54,10 +53,6 @@ public class Factory<T> {
         return fullQualifiedClassName;
     }
     
-    private FactoryContext context() {
-        return FactoryContext.context();
-    }
-
     @SuppressWarnings("unchecked")
     public T build() {
         try {
@@ -68,7 +63,7 @@ public class Factory<T> {
                 setBeanProperty(instance, attribute.getId(), attribute.getValue());
             });
 
-            context().addInstance(this.getName(), instance);
+            factoryManager.context().addInstance(this.getName(), instance);
 
             attributes.values().stream().filter(Attribute::isReference).forEach(attribute -> {
                 Object reference = loadReference((FactoryReference)attribute.getValue());
@@ -88,7 +83,7 @@ public class Factory<T> {
 
     public Object loadReference(FactoryReference factoryReference) {
         String referenceName = factoryReference.getReference();
-        Object referenceInstance = context().instance(referenceName);
+        Object referenceInstance = factoryManager.context().instance(referenceName);
         if (referenceInstance == null) {
             referenceInstance = factoryManager.build(referenceName);
         }

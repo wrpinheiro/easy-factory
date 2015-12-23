@@ -10,7 +10,6 @@ import com.mscharhag.oleaster.runner.OleasterRunner;
 import com.wrpinheiro.easyfactory.FactoryReference;
 import com.wrpinheiro.easyfactory.core.Attribute;
 import com.wrpinheiro.easyfactory.core.Factory;
-import com.wrpinheiro.easyfactory.core.FactoryContext;
 import com.wrpinheiro.easyfactory.core.FactoryManager;
 import com.wrpinheiro.easyfactory.core.model.User;
 
@@ -49,7 +48,7 @@ public class FileSystemLoaderTest {
                 User user = factoryManager.build("simple_user");
 
                 expect(user).toBeNotNull();
-                expect(user.getId()).toEqual(Integer.valueOf(1234));
+                expect(user.getId()).toEqual(Integer.valueOf(10203040));
                 expect(user.getNickname()).toEqual("john.doe");
                 expect(user.getEmail()).toEqual("john.doe@doe.com");
                 expect(user.getName()).toEqual("John Doe");
@@ -62,7 +61,7 @@ public class FileSystemLoaderTest {
                 User user = newFsLoader.factoryManager().build("user_with_address_relation");
                 
                 expect(user).toBeNotNull();
-                expect(user.getId()).toEqual(1234);
+                expect(user.getId()).toEqual(31318080);
                 expect(user.getAddress()).toBeNotNull();
                 expect(user.getAddress().getStreet()).toEqual("Mountain St");
             });

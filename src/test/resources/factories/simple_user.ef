@@ -1,5 +1,5 @@
 factory simple_user, class com.wrpinheiro.easyfactory.core.model.User
-    id: 1234
+    id: 10203040
     nickname: "john.doe"
     email: "john.doe@doe.com"
     name: "John Doe"

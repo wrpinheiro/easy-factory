@@ -37,7 +37,7 @@ public class EasyFactoryParserTest {
 
         ParseTree tree = parser.factoryDecl();
 
-        assertEquals("(factoryDecl factory simple_user , (classDecl class (qualifiedName com . wrpinheiro . easyfactory . core . model . User)) (attributeListDecl (attributeDecl id : (literal 1234)) (attributeDecl nickname : (literal \"john.doe\")) (attributeDecl email : (literal \"john.doe@doe.com\")) (attributeDecl name : (literal \"John Doe\"))) end)", tree.toStringTree(parser));
+        assertEquals("(factoryDecl factory simple_user , (classDecl class (qualifiedName com . wrpinheiro . easyfactory . core . model . User)) (attributeListDecl (attributeDecl id : (literal 10203040)) (attributeDecl nickname : (literal \"john.doe\")) (attributeDecl email : (literal \"john.doe@doe.com\")) (attributeDecl name : (literal \"John Doe\"))) end)", tree.toStringTree(parser));
     }
     
     @Test
@@ -46,6 +46,6 @@ public class EasyFactoryParserTest {
 
         ParseTree tree = parser.factoriesDecl();
 
-        assertEquals("(factoriesDecl (factoryDecl factory address , (classDecl class (qualifiedName com . wrpinheiro . easyfactory . core . model . Address)) (attributeListDecl (attributeDecl street : (literal \"Mountain St\")) (attributeDecl number : (literal 46))) end) (factoryDecl factory user_with_address_relation , (classDecl class (qualifiedName com . wrpinheiro . easyfactory . core . model . User)) (attributeListDecl (attributeDecl id : (literal 1234)) (attributeDecl nickname : (literal \"john.doe\")) (attributeDecl email : (literal \"john.doe@doe.com\")) (attributeDecl name : (literal \"John Doe\")) (attributeDecl address : (buildFactoryDecl build ( address )))) end))", tree.toStringTree(parser));
+        assertEquals("(factoriesDecl (factoryDecl factory address , (classDecl class (qualifiedName com . wrpinheiro . easyfactory . core . model . Address)) (attributeListDecl (attributeDecl street : (literal \"Mountain St\")) (attributeDecl number : (literal 46))) end) (factoryDecl factory user_with_address_relation , (classDecl class (qualifiedName com . wrpinheiro . easyfactory . core . model . User)) (attributeListDecl (attributeDecl id : (literal 31318080)) (attributeDecl nickname : (literal \"john.doe\")) (attributeDecl email : (literal \"john.doe@doe.com\")) (attributeDecl name : (literal \"John Doe\")) (attributeDecl address : (buildFactoryDecl build ( address )))) end))", tree.toStringTree(parser));
     }
 }

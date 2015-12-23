@@ -55,4 +55,10 @@ public class User {
     public void setAddress(Address address) {
         this.address = address;
     }
+
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", nickname=" + nickname + ", email=" + email + ", name=" + name + ", admin=" + admin
+                + ", address=" + address + "]";
+    }
 }

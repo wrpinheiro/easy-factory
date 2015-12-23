@@ -3,7 +3,6 @@ package com.wrpinheiro.easyfactory.core;
 import static com.mscharhag.oleaster.matcher.Matchers.expect;
 import static com.mscharhag.oleaster.runner.StaticRunnerSupport.describe;
 import static com.mscharhag.oleaster.runner.StaticRunnerSupport.it;
-import static com.wrpinheiro.easyfactory.core.FactoryManager.DEFAULT_FACTORY_MANAGER;
 
 import org.junit.runner.RunWith;
 
@@ -15,12 +14,15 @@ public class FactoryManagerTest {
     {
         describe("#addFactory", () -> {
             it("must add a factory to factory manager", () -> {
-                Factory<User> userFactory = new Factory<User>(DEFAULT_FACTORY_MANAGER, "user");
+                FactoryManager fm = new FactoryManager(this.getClass().getName());
+
+                Factory<User> userFactory = new Factory<User>(fm, "user");
                 userFactory.setFullQualifiedClassName(User.class.getName());
                 userFactory.addAttribute(new Attribute<Integer>("id", 15423));
 
-                DEFAULT_FACTORY_MANAGER.addFactory(userFactory);
-                Factory<User> otherUserFactory = DEFAULT_FACTORY_MANAGER.getFactory("user");
+                fm.addFactory(userFactory);
+
+                Factory<User> otherUserFactory = fm.getFactory("user");
 
                 expect(otherUserFactory).toBeNotNull();
                 expect(otherUserFactory.getName()).toEqual("user");

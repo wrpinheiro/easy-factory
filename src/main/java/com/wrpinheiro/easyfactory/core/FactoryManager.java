@@ -15,15 +15,17 @@ public final class FactoryManager {
      */
     private Map<String, Factory<?>> factories;
 
-    public static final FactoryManager DEFAULT_FACTORY_MANAGER = new FactoryManager("DEFAULT");
-
     /**
      * The factory name
      */
     private String name;
 
+    private FactoryContext factoryContext;
+
     public FactoryManager(String name) {
         this.name = name;
+        
+        this.factoryContext = new FactoryContext(this);
     }
 
     private Map<String, Factory<?>> safeGetFactories() {
@@ -33,21 +35,28 @@ public final class FactoryManager {
 
         return factories;
     }
-
-    public void addFactories(Map<String, Factory<?>> factories) {
-        safeGetFactories().putAll(factories);
+    
+    public FactoryContext context() {
+        return factoryContext;
     }
 
-    private Map<String, Factory<?>> getFactories() {
-        return unmodifiableMap(this.factories);
+    public void addFactory(Factory<?> factory) {
+        if (safeGetFactories().get(factory.getName()) != null) {
+            throw new RuntimeException(String.format("Duplicated factory %s.\nCurrent: %s\nNew: %s", factory.getName(), safeGetFactories().get(factory.getName()), factory));
+        }
+        safeGetFactories().put(factory.getName(), factory);
+    }
+    
+    public void addFactories(Map<String, Factory<?>> factories) {
+        factories.values().forEach(this::addFactory);
+    }
+    
+    public Map<String, Factory<?>> getFactories() {
+        return unmodifiableMap(safeGetFactories());
     }
 
     public String getName() {
         return this.name;
-    }
-
-    public void addFactory(Factory<?> factory) {
-        safeGetFactories().put(factory.getName(), factory);
     }
 
     public <T> T build(String factoryName) {
@@ -58,7 +67,7 @@ public final class FactoryManager {
 
     @SuppressWarnings("unchecked")
     public <T> Factory<T> getFactory(String factoryName) {
-        return (Factory<T>) getFactories().get(factoryName);
+        return (Factory<T>) safeGetFactories().get(factoryName);
     }
 
     @Override

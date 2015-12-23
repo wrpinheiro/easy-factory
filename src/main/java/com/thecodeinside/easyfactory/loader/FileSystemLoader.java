@@ -1,4 +1,4 @@
-package com.wrpinheiro.easyfactory.loader;
+package com.thecodeinside.easyfactory.loader;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,10 +14,10 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
-import com.wrpinheiro.easyfactory.core.FactoryManager;
-import com.wrpinheiro.easyfactory.parser.EasyFactoryLexer;
-import com.wrpinheiro.easyfactory.parser.EasyFactoryParser;
-import com.wrpinheiro.easyfactory.parser.impl.EasyFactoryListenerImpl;
+import com.thecodeinside.easyfactory.core.FactoryManager;
+import com.thecodeinside.easyfactory.parser.EasyFactoryLexer;
+import com.thecodeinside.easyfactory.parser.EasyFactoryParser;
+import com.thecodeinside.easyfactory.parser.impl.EasyFactoryListenerImpl;
 
 public class FileSystemLoader {
     /**

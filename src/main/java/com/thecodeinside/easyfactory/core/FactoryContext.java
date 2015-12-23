@@ -1,4 +1,4 @@
-package com.wrpinheiro.easyfactory.core;
+package com.thecodeinside.easyfactory.core;
 
 import static java.lang.String.format;
 import static java.util.Optional.ofNullable;

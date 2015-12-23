@@ -1,4 +1,4 @@
-package com.wrpinheiro.easyfactory.core.model;
+package com.thecodeinside.easyfactory.core.model;
 
 public class Address {
     private String street;

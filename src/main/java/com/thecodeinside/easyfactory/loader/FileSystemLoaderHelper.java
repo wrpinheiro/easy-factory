@@ -1,6 +1,6 @@
-package com.wrpinheiro.easyfactory.loader;
+package com.thecodeinside.easyfactory.loader;
 
-import com.wrpinheiro.easyfactory.core.FactoryManager;
+import com.thecodeinside.easyfactory.core.FactoryManager;
 
 /**
  * Utility class that helps to load factories from file. It guarantees that only one Factory Manager

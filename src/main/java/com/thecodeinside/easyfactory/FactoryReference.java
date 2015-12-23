@@ -1,4 +1,4 @@
-package com.wrpinheiro.easyfactory;
+package com.thecodeinside.easyfactory;
 
 /**
  * 

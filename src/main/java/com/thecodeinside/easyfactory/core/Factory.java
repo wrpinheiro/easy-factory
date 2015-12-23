@@ -1,4 +1,4 @@
-package com.wrpinheiro.easyfactory.core;
+package com.thecodeinside.easyfactory.core;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
 
-import com.wrpinheiro.easyfactory.FactoryReference;
+import com.thecodeinside.easyfactory.FactoryReference;
 
 /**
  * @author Wellington Pinheiro <wellington.pinheiro@gmail.com>

@@ -1,9 +1,9 @@
-factory address, class com.wrpinheiro.easyfactory.core.model.Address
+factory address, class com.thecodeinside.easyfactory.core.model.Address
     street: "Mountain St"
     number: 46
 end
 
-factory user_with_address_relation, class com.wrpinheiro.easyfactory.core.model.User
+factory user_with_address_relation, class com.thecodeinside.easyfactory.core.model.User
     id: 31318080
     nickname: "john.doe"
     email: "john.doe@doe.com"

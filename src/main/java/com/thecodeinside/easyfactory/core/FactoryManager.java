@@ -1,4 +1,4 @@
-package com.wrpinheiro.easyfactory.core;
+package com.thecodeinside.easyfactory.core;
 
 import static java.util.Collections.unmodifiableMap;
 

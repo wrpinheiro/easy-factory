@@ -1,7 +1,7 @@
 grammar EasyFactory;
 
 @header {
- package com.wrpinheiro.easyfactory.parser;
+ package com.thecodeinside.easyfactory.parser;
 }
 
 factoriesDecl

@@ -1,4 +1,4 @@
-package com.wrpinheiro.easyfactory.loader;
+package com.thecodeinside.easyfactory.loader;
 
 import static com.mscharhag.oleaster.matcher.Matchers.expect;
 import static com.mscharhag.oleaster.runner.StaticRunnerSupport.describe;
@@ -7,11 +7,12 @@ import static com.mscharhag.oleaster.runner.StaticRunnerSupport.it;
 import org.junit.runner.RunWith;
 
 import com.mscharhag.oleaster.runner.OleasterRunner;
-import com.wrpinheiro.easyfactory.FactoryReference;
-import com.wrpinheiro.easyfactory.core.Attribute;
-import com.wrpinheiro.easyfactory.core.Factory;
-import com.wrpinheiro.easyfactory.core.FactoryManager;
-import com.wrpinheiro.easyfactory.core.model.User;
+import com.thecodeinside.easyfactory.FactoryReference;
+import com.thecodeinside.easyfactory.core.Attribute;
+import com.thecodeinside.easyfactory.core.Factory;
+import com.thecodeinside.easyfactory.core.FactoryManager;
+import com.thecodeinside.easyfactory.core.model.User;
+import com.thecodeinside.easyfactory.loader.FileSystemLoader;
 
 @RunWith(OleasterRunner.class)
 public class FileSystemLoaderTest {

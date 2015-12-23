@@ -1,16 +1,16 @@
-package com.wrpinheiro.easyfactory.parser.impl;
+package com.thecodeinside.easyfactory.parser.impl;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.wrpinheiro.easyfactory.FactoryReference;
-import com.wrpinheiro.easyfactory.core.Attribute;
-import com.wrpinheiro.easyfactory.core.Factory;
-import com.wrpinheiro.easyfactory.core.FactoryManager;
-import com.wrpinheiro.easyfactory.parser.EasyFactoryBaseListener;
-import com.wrpinheiro.easyfactory.parser.EasyFactoryParser;
-import com.wrpinheiro.easyfactory.parser.EasyFactoryParser.AttributeDeclContext;
-import com.wrpinheiro.easyfactory.parser.EasyFactoryParser.ClassDeclContext;
+import com.thecodeinside.easyfactory.FactoryReference;
+import com.thecodeinside.easyfactory.core.Attribute;
+import com.thecodeinside.easyfactory.core.Factory;
+import com.thecodeinside.easyfactory.core.FactoryManager;
+import com.thecodeinside.easyfactory.parser.EasyFactoryBaseListener;
+import com.thecodeinside.easyfactory.parser.EasyFactoryParser;
+import com.thecodeinside.easyfactory.parser.EasyFactoryParser.AttributeDeclContext;
+import com.thecodeinside.easyfactory.parser.EasyFactoryParser.ClassDeclContext;
 
 public class EasyFactoryListenerImpl extends EasyFactoryBaseListener {
     private Map<String, Factory<?>> factories;

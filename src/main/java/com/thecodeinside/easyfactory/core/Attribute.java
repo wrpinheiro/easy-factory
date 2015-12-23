@@ -1,6 +1,6 @@
-package com.wrpinheiro.easyfactory.core;
+package com.thecodeinside.easyfactory.core;
 
-import com.wrpinheiro.easyfactory.FactoryReference;
+import com.thecodeinside.easyfactory.FactoryReference;
 
 /**
  * A factory's attribute.

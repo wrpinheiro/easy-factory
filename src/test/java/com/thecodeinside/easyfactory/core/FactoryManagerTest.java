@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import com.thecodeinside.easyfactory.core.model.User;
 
-
 public class FactoryManagerTest {
 
     @Test

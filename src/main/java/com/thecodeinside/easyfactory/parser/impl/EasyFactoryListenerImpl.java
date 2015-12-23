@@ -1,7 +1,7 @@
 package com.thecodeinside.easyfactory.parser.impl;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.thecodeinside.easyfactory.FactoryReference;
 import com.thecodeinside.easyfactory.core.Attribute;
@@ -13,7 +13,7 @@ import com.thecodeinside.easyfactory.parser.EasyFactoryParser.AttributeDeclConte
 import com.thecodeinside.easyfactory.parser.EasyFactoryParser.ClassDeclContext;
 
 public class EasyFactoryListenerImpl extends EasyFactoryBaseListener {
-    private Map<String, Factory<?>> factories;
+    private List<Factory<?>> factories;
     private Factory<?> factory;
 
     private Object literal;
@@ -23,7 +23,7 @@ public class EasyFactoryListenerImpl extends EasyFactoryBaseListener {
         this.factoryManager = factoryManager;
     }
 
-    public Map<String, Factory<?>> getFactories() {
+    public List<Factory<?>> getFactories() {
         return factories;
     }
 
@@ -33,7 +33,7 @@ public class EasyFactoryListenerImpl extends EasyFactoryBaseListener {
 
     @Override
     public void enterFactoriesDecl(EasyFactoryParser.FactoriesDeclContext ctx) {
-        factories = new HashMap<String, Factory<?>>();
+        factories = new ArrayList<Factory<?>>();
     }
 
     @Override
@@ -41,7 +41,7 @@ public class EasyFactoryListenerImpl extends EasyFactoryBaseListener {
         String factoryName = ctx.Identifier().getText();
 
         factory = new Factory<Object>(factoryManager, factoryName);
-        factories.put(factoryName, factory);
+        factories.add(factory);
     }
 
     @Override

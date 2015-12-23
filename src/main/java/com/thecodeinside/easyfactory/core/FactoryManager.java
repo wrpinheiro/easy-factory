@@ -3,6 +3,7 @@ package com.thecodeinside.easyfactory.core;
 import static java.util.Collections.unmodifiableMap;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,8 +48,8 @@ public final class FactoryManager {
         safeGetFactories().put(factory.getName(), factory);
     }
     
-    public void addFactories(Map<String, Factory<?>> factories) {
-        factories.values().forEach(this::addFactory);
+    public void addFactories(List<Factory<?>> factories) {
+        factories.forEach(this::addFactory);
     }
     
     public Map<String, Factory<?>> getFactories() {

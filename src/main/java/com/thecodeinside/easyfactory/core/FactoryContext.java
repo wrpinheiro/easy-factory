@@ -1,11 +1,9 @@
 package com.thecodeinside.easyfactory.core;
 
 import static java.lang.String.format;
-import static java.util.Optional.ofNullable;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public final class FactoryContext {
     private FactoryManager factoryManager;

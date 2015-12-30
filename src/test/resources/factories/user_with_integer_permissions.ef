@@ -2,5 +2,5 @@ factory user_with_integer_permissions, class com.thecodeinside.easyfactory.core.
     id: 3452904
     nickname: "john.doe"
     name: "John Doe"
-    permissions: [10, 20, 5]
+    permissions: [10, 20, -5]
 end

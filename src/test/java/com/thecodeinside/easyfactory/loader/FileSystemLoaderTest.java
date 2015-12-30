@@ -97,6 +97,6 @@ public class FileSystemLoaderTest {
         assertNotNull(user);
         assertEquals(3452904, user.getId().intValue());
         assertEquals("john.doe", user.getNickname());
-        assertArrayEquals(new String[] {"10", "20", "5"}, user.getPermissions());
+        assertArrayEquals(new String[] {"10", "20", "-5"}, user.getPermissions());
     }
 }

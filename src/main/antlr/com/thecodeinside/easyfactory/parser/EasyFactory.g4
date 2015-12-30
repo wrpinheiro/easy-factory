@@ -45,7 +45,16 @@ literalList
     ;
 
 IntegerLiteral
-    :   DecimalNumeral;
+    :   SignedDecimalNumeral;
+
+SignedDecimalNumeral
+    : Sign? DecimalNumeral
+    ; 
+    
+fragment
+Sign
+    :   [+-]
+    ;
 
 DecimalNumeral
     :   '0'

@@ -1,6 +1,7 @@
 package com.thecodeinside.easyfactory.parser.impl;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.thecodeinside.easyfactory.FactoryReference;
@@ -48,30 +49,35 @@ public class EasyFactoryListenerImpl extends EasyFactoryBaseListener {
         factory.setFullQualifiedClassName(ctx.qualifiedName().getText());
     }
 
-    // private void addLiteral(Object literal) {
-    // if (this.literals == null) {
-    // this.literals = new LinkedList<>();
-    // }
-    //
-    // this.literals.offer(literal);
-    // }
-
-    @Override
-    public void enterLiteralAttributeDecl(EasyFactoryParser.LiteralAttributeDeclContext ctx) {
-        if (ctx.literal().StringLiteral() != null) {
-            literal = removeQuotes(ctx.literal().StringLiteral().getText());
-        } else if (ctx.literal().IntegerLiteral() != null) {
-            literal = Integer.valueOf(ctx.literal().IntegerLiteral().getText());
+    private Object literalToObject(EasyFactoryParser.LiteralContext ctx) {
+        if (ctx.StringLiteral() != null) {
+            literal = removeQuotes(ctx.StringLiteral().getText());
+        } else if (ctx.IntegerLiteral() != null) {
+            literal = Integer.valueOf(ctx.IntegerLiteral().getText());
         } else {
             literal = null;
         }
 
-        factory.addAttribute(new Attribute<Object>(ctx.Identifier().getText(), literal));
+        return literal;
+    }
+
+    @Override
+    public void enterLiteralAttributeDecl(EasyFactoryParser.LiteralAttributeDeclContext ctx) {
+        factory.addAttribute(new Attribute<Object>(ctx.Identifier().getText(), literalToObject(ctx.literal())));
     }
 
     @Override
     public void enterBuildFactoryAttributeDecl(EasyFactoryParser.BuildFactoryAttributeDeclContext ctx) {
         factory.addAttribute(new Attribute<Object>(ctx.Identifier().get(0).getText(), 
                 new FactoryReference(ctx.Identifier().get(1).getText())));
+    }
+
+    @Override
+    public void enterArrayAttributeDecl(EasyFactoryParser.ArrayAttributeDeclContext ctx) {
+        final List<Object> literals = new LinkedList<>();
+
+        ctx.literalList().literal().forEach(literal -> literals.add(literalToObject(literal)));
+
+        factory.addAttribute(new Attribute<Object>(ctx.Identifier().getText(), literals));
     }
 }

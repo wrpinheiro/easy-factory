@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.stream.Stream;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.thecodeinside.easyfactory.FactoryReference;
@@ -74,7 +73,7 @@ public class FileSystemLoaderTest {
         assertEquals("Mountain St", user.getAddress().getStreet());
     }
     
-    @Ignore
+    @Test
     public void loadFactories_must_build_a_factory_with_an_array_of_strings() {
         FileSystemLoader newFsLoader = new FileSystemLoader();
         newFsLoader.loadFactories();

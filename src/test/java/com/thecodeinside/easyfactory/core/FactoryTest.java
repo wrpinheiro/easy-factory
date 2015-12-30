@@ -53,6 +53,27 @@ public class FactoryTest {
     }
 
     @Test
+    public void build_must_create_a_user_factory_with_an_array_of_permissions() {
+        Factory<User> userFactory = buildSimpleUserFactory();
+
+        String[] values = { "operations", "remote", "joker" };
+
+        Attribute<String[]> operations = new Attribute<>("permissions", values);
+
+        userFactory.addAttribute(operations);
+
+        User user = userFactory.build();
+
+        assertNotNull(user);
+        assertEquals(12121212, user.getId().intValue());
+        assertNotNull(user.getPermissions());
+        assertEquals(3, user.getPermissions().length);
+        assertEquals("operations", user.getPermissions()[0]);
+        assertEquals("remote", user.getPermissions()[1]);
+        assertEquals("joker", user.getPermissions()[2]);
+    }
+
+    @Test
     public void build_must_create_a_factory_with_simple_relationship() {
         FactoryManager fm = new FactoryManager(this.getClass().getName());
 

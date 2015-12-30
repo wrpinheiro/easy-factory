@@ -1,5 +1,7 @@
 package com.thecodeinside.easyfactory.core.model;
 
+import java.util.Arrays;
+
 public class User {
     private Integer id;
     private String nickname;
@@ -7,6 +9,7 @@ public class User {
     private String name;
     private boolean admin;
     private Address address;
+    private String[] permissions;
 
     public void setId(Integer id) {
         this.id = id;
@@ -55,10 +58,18 @@ public class User {
     public void setAddress(Address address) {
         this.address = address;
     }
+    
+    public void setPermissions(String[] permissions) {
+        this.permissions = permissions;
+    }
+
+    public String[] getPermissions() {
+        return permissions;
+    }
 
     @Override
     public String toString() {
         return "User [id=" + id + ", nickname=" + nickname + ", email=" + email + ", name=" + name + ", admin=" + admin
-                + ", address=" + address + "]";
+                + ", address=" + address + ", permissions=" + Arrays.toString(permissions) + "]";
     }
 }

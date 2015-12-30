@@ -86,5 +86,17 @@ public class FileSystemLoaderTest {
         Stream.of(user.getPermissions()).forEach(System.out::println);
         assertArrayEquals(new String[] {"operations", "remote", "joker"}, user.getPermissions());
     }
+    
+    @Test
+    public void loadFactories_must_build_a_factory_with_an_array_of_integers_and_force_coercion() {
+        FileSystemLoader newFsLoader = new FileSystemLoader();
+        newFsLoader.loadFactories();
 
+        User user = newFsLoader.factoryManager().build("user_with_integer_permissions");
+
+        assertNotNull(user);
+        assertEquals(3452904, user.getId().intValue());
+        assertEquals("john.doe", user.getNickname());
+        assertArrayEquals(new String[] {"10", "20", "5"}, user.getPermissions());
+    }
 }

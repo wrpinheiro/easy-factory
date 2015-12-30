@@ -21,14 +21,27 @@ attributeListDecl
     ;
 
 attributeDecl
-    :   Identifier ':' literal
-    |   Identifier ':' buildFactoryDecl
+    :   literalAttributeDecl
+    |   buildFactoryAttributeDecl
+    |   arrayAttributeDecl
     ;
-
+    
+literalAttributeDecl
+    : Identifier ':' literal
+    ;
+    
 literal
     :   IntegerLiteral
     |   StringLiteral
     |   'null'
+    ;
+
+arrayAttributeDecl
+    :   Identifier ':' '[' literalList? ','? ']'
+    ;
+
+literalList
+    :  literal (',' literal)*
     ;
 
 IntegerLiteral
@@ -53,8 +66,8 @@ StringCharacter
     :   ~["\\]
     ;
 
-buildFactoryDecl
-    :   'build' '(' Identifier ')'
+buildFactoryAttributeDecl
+    :   Identifier ':' 'build' '(' Identifier ')'
     ;
 
 qualifiedName

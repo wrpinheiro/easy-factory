@@ -1,9 +1,13 @@
 package com.thecodeinside.easyfactory.loader;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.stream.Stream;
+
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.thecodeinside.easyfactory.FactoryReference;
@@ -69,4 +73,19 @@ public class FileSystemLoaderTest {
         assertNotNull(user.getAddress());
         assertEquals("Mountain St", user.getAddress().getStreet());
     }
+    
+    @Ignore
+    public void loadFactories_must_build_a_factory_with_an_array_of_strings() {
+        FileSystemLoader newFsLoader = new FileSystemLoader();
+        newFsLoader.loadFactories();
+
+        User user = newFsLoader.factoryManager().build("user_with_permissions");
+
+        assertNotNull(user);
+        assertEquals(3452904, user.getId().intValue());
+        assertEquals("john.doe", user.getNickname());
+        Stream.of(user.getPermissions()).forEach(System.out::println);
+        assertArrayEquals(new String[] {"operations", "remote", "joker"}, user.getPermissions());
+    }
+
 }

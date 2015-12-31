@@ -1,13 +1,22 @@
 package com.thecodeinside.easyfactory.parser;
 
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.io.InputStream;
+import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.TerminalNode;
+import org.junit.Test;
+
+import com.thecodeinside.easyfactory.parser.EasyFactoryParser.ArrayAttributeDeclContext;
+import com.thecodeinside.easyfactory.parser.EasyFactoryParser.AttributeDeclContext;
+import com.thecodeinside.easyfactory.parser.EasyFactoryParser.BuildFactoryAttributeDeclContext;
+import com.thecodeinside.easyfactory.parser.EasyFactoryParser.ClassDeclContext;
+import com.thecodeinside.easyfactory.parser.EasyFactoryParser.FactoriesDeclContext;
+import com.thecodeinside.easyfactory.parser.EasyFactoryParser.FactoryDeclContext;
+import com.thecodeinside.easyfactory.parser.EasyFactoryParser.LiteralAttributeDeclContext;
 
 public class EasyFactoryParserTest {
 
@@ -23,29 +32,100 @@ public class EasyFactoryParserTest {
         }
     }
 
+    private void testLiteral(String expect, String actual) {
+        assertEquals("\"" + expect + "\"", actual);
+    }
+
+    private void testLiteral(Integer expected, String actual) {
+        assertEquals(expected.toString(), actual);
+    }
+
+    private void testLiteralAttribute(LiteralAttributeDeclContext ctx, String id, String value) {
+        assertEquals(id, ctx.Identifier().getText());
+        testLiteral(value, ctx.literal().StringLiteral().getText());
+    }
+
+    private void testLiteralAttribute(LiteralAttributeDeclContext ctx, String id, Integer value) {
+        assertEquals(id, ctx.Identifier().getText());
+        testLiteral(value, ctx.literal().IntegerLiteral().getText());
+    }
+
+    private void testArrayAttribute(ArrayAttributeDeclContext ctx, String id, String[] values) {
+        assertEquals(id, ctx.Identifier().getText());
+        assertEquals(values.length, ctx.literalList().literal().size());
+
+        for (int i = 0; i < values.length; i++) {
+            testLiteral(values[i], ctx.literalList().literal(i).StringLiteral().getText());
+        }
+    }
+
     @Test
-    public void mustParseAFactoryWithoutAttributes() {
+    public void must_parse_a_factory_without_attributes() {
         EasyFactoryParser parser = this.parser("factories/empty_user.ef");
 
-        ParseTree tree = parser.factoryDecl();
-        assertEquals("(factoryDecl factory empty_user , (classDecl class (qualifiedName com . thecodeinside . easyfactory . core . model . User)) attributeListDecl end)", tree.toStringTree(parser));
+        FactoryDeclContext factoryDeclContext = parser.factoryDecl();
+        assertEquals("empty_user", factoryDeclContext.Identifier().getText());
+
+        ClassDeclContext classDeclContext = factoryDeclContext.classDecl();
+        List<TerminalNode> classDeclIdentifiers = classDeclContext.qualifiedName().Identifier();
+        assertEquals("User", classDeclIdentifiers.get(classDeclIdentifiers.size() - 1).getText());
+
+        assertEquals(0, factoryDeclContext.attributeListDecl().attributeDecl().size());
     }
 
     @Test
-    public void mustParseAFactoryWithSimpleAttributes() {
+    public void must_parse_a_factory_with_simple_attributes() {
         EasyFactoryParser parser = this.parser("factories/simple_user.ef");
 
-        ParseTree tree = parser.factoryDecl();
+        FactoryDeclContext factoryDeclContext = parser.factoryDecl();
+        assertEquals("simple_user", factoryDeclContext.Identifier().getText());
 
-        assertEquals("(factoryDecl factory simple_user , (classDecl class (qualifiedName com . thecodeinside . easyfactory . core . model . User)) (attributeListDecl (attributeDecl (literalAttributeDecl id : (literal 10203040))) (attributeDecl (literalAttributeDecl nickname : (literal \"john.doe\"))) (attributeDecl (literalAttributeDecl email : (literal \"john.doe@doe.com\"))) (attributeDecl (literalAttributeDecl name : (literal \"John Doe\")))) end)", tree.toStringTree(parser));
+        assertEquals(4, factoryDeclContext.attributeListDecl().attributeDecl().size());
+
+        LiteralAttributeDeclContext id = factoryDeclContext.attributeListDecl().attributeDecl(0).literalAttributeDecl();
+        LiteralAttributeDeclContext nickname = factoryDeclContext.attributeListDecl().attributeDecl(1).literalAttributeDecl();
+        LiteralAttributeDeclContext email = factoryDeclContext.attributeListDecl().attributeDecl(2).literalAttributeDecl();
+        LiteralAttributeDeclContext name = factoryDeclContext.attributeListDecl().attributeDecl(3).literalAttributeDecl();
+
+        testLiteralAttribute(id, "id", new Integer(10203040));
+        testLiteralAttribute(nickname, "nickname", "john.doe");
+        testLiteralAttribute(email, "email", "john.doe@doe.com");
+        testLiteralAttribute(name, "name", "John Doe");
     }
-    
+
     @Test
-    public void mustParseAFactoryWithRelations() {
+    public void must_parse_a_factory_with_relations() {
         EasyFactoryParser parser = this.parser("factories/user_with_address.ef");
 
-        ParseTree tree = parser.factoriesDecl();
+        FactoriesDeclContext factoriesDeclContext = parser.factoriesDecl();
+        assertEquals(2, factoriesDeclContext.factoryDecl().size());
 
-        assertEquals("(factoriesDecl (factoryDecl factory address , (classDecl class (qualifiedName com . thecodeinside . easyfactory . core . model . Address)) (attributeListDecl (attributeDecl (literalAttributeDecl street : (literal \"Mountain St\"))) (attributeDecl (literalAttributeDecl number : (literal 46)))) end) (factoryDecl factory user_with_address_relation , (classDecl class (qualifiedName com . thecodeinside . easyfactory . core . model . User)) (attributeListDecl (attributeDecl (literalAttributeDecl id : (literal 31318080))) (attributeDecl (literalAttributeDecl nickname : (literal \"john.doe\"))) (attributeDecl (literalAttributeDecl email : (literal \"john.doe@doe.com\"))) (attributeDecl (literalAttributeDecl name : (literal \"John Doe\"))) (attributeDecl (buildFactoryAttributeDecl address : build ( address )))) end))", tree.toStringTree(parser));
+        FactoryDeclContext addressFactory = factoriesDeclContext.factoryDecl(0);
+        assertEquals("address", addressFactory.Identifier().getText());
+
+        FactoryDeclContext userFactory = factoriesDeclContext.factoryDecl(1);
+        assertEquals("user_with_address_relation", userFactory.Identifier().getText());
+
+        AttributeDeclContext addressReference = userFactory.attributeListDecl().attributeDecl(4);
+        BuildFactoryAttributeDeclContext buildFactoryAttributeDeclContext = addressReference.buildFactoryAttributeDecl();
+
+        assertEquals("address", buildFactoryAttributeDeclContext.Identifier(0).getText());
+        assertEquals("address", buildFactoryAttributeDeclContext.Identifier(1).getText());
+    }
+
+    @Test
+    public void mustParseAFactoryWithAnArrayOfString() {
+        EasyFactoryParser parser = this.parser("factories/user_with_permissions.ef");
+
+        FactoryDeclContext factoryDeclContext = parser.factoryDecl();
+        assertEquals("user_with_permissions", factoryDeclContext.Identifier().getText());
+
+        assertEquals(4, factoryDeclContext.attributeListDecl().attributeDecl().size());
+
+        LiteralAttributeDeclContext id = factoryDeclContext.attributeListDecl().attributeDecl(0).literalAttributeDecl();
+        ArrayAttributeDeclContext permissions = factoryDeclContext.attributeListDecl().attributeDecl(3).arrayAttributeDecl();
+
+        testLiteralAttribute(id, "id", new Integer(3452904));
+        testArrayAttribute(permissions, "permissions", new String[] { "operations", "remote", "joker" });
     }
 }

@@ -98,6 +98,9 @@ public class Factory<T> {
             Object targetValue = null;
 
             PropertyDescriptor targetPropertyDescriptor = PropertyUtils.getPropertyDescriptor(instance, property);
+            if (targetPropertyDescriptor == null) {
+                throw new RuntimeException(String.format("Could not find property %s in instance %s", property, instance.toString()));
+            }
 
             if (canAssign(targetPropertyDescriptor.getPropertyType(), value)) {
                 targetValue = value;

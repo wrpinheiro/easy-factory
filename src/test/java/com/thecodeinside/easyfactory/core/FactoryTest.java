@@ -11,6 +11,7 @@ import com.thecodeinside.easyfactory.FactoryReference;
 import com.thecodeinside.easyfactory.core.model.Address;
 import com.thecodeinside.easyfactory.core.model.Node;
 import com.thecodeinside.easyfactory.core.model.User;
+import com.thecodeinside.easyfactory.core.model.UserWithAddresses;
 
 public class FactoryTest {
 
@@ -94,6 +95,37 @@ public class FactoryTest {
         assertNotNull(user);
         assertNotNull(user.getAddress());
         assertEquals("Carl Peter St.", user.getAddress().getStreet());
+    }
+
+    @Test
+    public void build_must_create_a_factory_with_a_list_of_relationships() {
+        FactoryManager fm = new FactoryManager(this.getClass().getName());
+
+        Factory<Address> homeAddressFactory = new Factory<Address>(fm, "home_address");
+        homeAddressFactory.setFullQualifiedClassName(Address.class.getName());
+        homeAddressFactory.addAttribute(new Attribute<String>("street", "Carl Peter St."));
+
+        fm.addFactory(homeAddressFactory);
+
+        Factory<Address> workAddressFactory = new Factory<Address>(fm, "work_address");
+        workAddressFactory.setFullQualifiedClassName(Address.class.getName());
+        workAddressFactory.addAttribute(new Attribute<String>("street", "Mountain St."));
+
+        fm.addFactory(workAddressFactory);
+
+        Factory<UserWithAddresses> userFactory = new Factory<UserWithAddresses>(fm, "user_with_addresses");
+        userFactory.setFullQualifiedClassName(UserWithAddresses.class.getName());
+        userFactory.addAttribute(new Attribute<FactoryReference>("addresses", new FactoryReference(fm, "home_address", "work_address")));
+
+        fm.addFactory(userFactory);
+
+        UserWithAddresses user = userFactory.build();
+
+        assertNotNull(user);
+
+        assertEquals(2, user.getAddresses().size());
+        assertEquals("Carl Peter St.", user.getAddresses().get(0).getStreet());
+        assertEquals("Mountain St.", user.getAddresses().get(1).getStreet());
     }
 
     @Test

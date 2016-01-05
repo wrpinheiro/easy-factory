@@ -40,6 +40,23 @@ public class FileSystemLoaderTest {
     }
 
     @Test
+    public void loadFactories_must_load_a_factory_with_a_list_of_references() {
+        Factory<User> userFactory = factoryManager.getFactory("user_with_addresses_relation");
+
+        assertNotNull(userFactory);
+
+        Attribute<?> attribute = userFactory.getAttributes().get("addresses");
+
+        assertNotNull(attribute);
+        assertTrue(attribute.getValue() instanceof FactoryReference);
+
+        FactoryReference factoryReference = (FactoryReference) attribute.getValue();
+        assertNotNull(factoryReference);
+        assertEquals("home_address", factoryReference.getReferences()[0]);
+        assertEquals("work_address", factoryReference.getReferences()[1]);
+    }
+
+    @Test
     public void loadFactories_must_get_a_factory_for_simple_user() {
         Factory<User> userFactory = factoryManager.getFactory("simple_user");
 

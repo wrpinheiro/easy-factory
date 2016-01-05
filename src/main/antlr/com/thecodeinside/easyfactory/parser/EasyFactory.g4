@@ -37,10 +37,10 @@ literal
     ;
 
 arrayAttributeDecl
-    :   Identifier ':' '[' literalList? ','? ']'
+    :   Identifier ':' '[' literalListDecl? ','? ']'
     ;
 
-literalList
+literalListDecl
     :  literal (',' literal)*
     ;
 
@@ -76,8 +76,13 @@ StringCharacter
     ;
 
 buildFactoryAttributeDecl
-    :   Identifier ':' 'build' '(' Identifier ')'
+    :   Identifier ':' 'build' '(' identifierListDecl ')'
     ;
+
+identifierListDecl
+    :  Identifier (',' Identifier)*
+    ;
+
 
 qualifiedName
     :   Identifier ('.' Identifier)*

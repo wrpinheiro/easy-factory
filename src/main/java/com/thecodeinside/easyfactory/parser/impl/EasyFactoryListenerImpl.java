@@ -2,6 +2,9 @@ package com.thecodeinside.easyfactory.parser.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.antlr.v4.runtime.tree.TerminalNode;
 
 import com.thecodeinside.easyfactory.FactoryReference;
 import com.thecodeinside.easyfactory.core.Attribute;
@@ -67,15 +70,17 @@ public class EasyFactoryListenerImpl extends EasyFactoryBaseListener {
 
     @Override
     public void enterBuildFactoryAttributeDecl(EasyFactoryParser.BuildFactoryAttributeDeclContext ctx) {
-        factory.addAttribute(new Attribute<Object>(ctx.Identifier().get(0).getText(), 
-                new FactoryReference(factoryManager, ctx.Identifier().get(1).getText())));
+        String[] factoriesReferences = ctx.identifierListDecl().Identifier().stream().map(TerminalNode::getText)
+                .collect(Collectors.toList()).toArray(new String[0]);
+
+        factory.addAttribute(new Attribute<Object>(ctx.Identifier().getText(), new FactoryReference(factoryManager, factoriesReferences)));
     }
 
     @Override
     public void enterArrayAttributeDecl(EasyFactoryParser.ArrayAttributeDeclContext ctx) {
         final List<Object> literals = new ArrayList<>();
 
-        ctx.literalList().literal().forEach(literal -> literals.add(literalToObject(literal)));
+        ctx.literalListDecl().literal().forEach(literal -> literals.add(literalToObject(literal)));
 
         factory.addAttribute(new Attribute<Object>(ctx.Identifier().getText(), literals));
     }

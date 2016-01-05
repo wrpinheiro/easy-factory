@@ -66,7 +66,7 @@ public class Factory<T> {
             factoryManager.context().addInstance(this.getName(), instance);
 
             attributes.values().stream().filter(Attribute::isReference).forEach(attribute -> {
-                Object reference = loadReference((FactoryReference)attribute.getValue());
+                Object reference = ((FactoryReference)attribute.getValue()).loadReference();
 
                 if (reference != null) {
                     setBeanProperty(instance, attribute.getId(), reference);
@@ -79,16 +79,6 @@ public class Factory<T> {
         }
 
         return null;
-    }
-
-    public Object loadReference(FactoryReference factoryReference) {
-        String referenceName = factoryReference.getReference();
-        Object referenceInstance = factoryManager.context().instance(referenceName);
-        if (referenceInstance == null) {
-            referenceInstance = factoryManager.build(referenceName);
-        }
-        
-        return referenceInstance;
     }
 
     private void setBeanProperty(T instance, String property, Object value) {

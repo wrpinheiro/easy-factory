@@ -69,7 +69,7 @@ public class EasyFactoryListenerImpl extends EasyFactoryBaseListener {
     @Override
     public void enterBuildFactoryAttributeDecl(EasyFactoryParser.BuildFactoryAttributeDeclContext ctx) {
         factory.addAttribute(new Attribute<Object>(ctx.Identifier().get(0).getText(), 
-                new FactoryReference(ctx.Identifier().get(1).getText())));
+                new FactoryReference(factoryManager, ctx.Identifier().get(1).getText())));
     }
 
     @Override

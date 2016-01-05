@@ -85,7 +85,7 @@ public class FactoryTest {
 
         Factory<User> userFactory = new Factory<User>(fm, "user_with_address");
         userFactory.setFullQualifiedClassName(User.class.getName());
-        userFactory.addAttribute(new Attribute<FactoryReference>("address", new FactoryReference("address")));
+        userFactory.addAttribute(new Attribute<FactoryReference>("address", new FactoryReference(fm, "address")));
 
         fm.addFactory(userFactory);
 
@@ -140,7 +140,7 @@ public class FactoryTest {
 
         nodeFactory.setFullQualifiedClassName(Node.class.getName());
         nodeFactory.addAttribute(new Attribute<String>("name", name));
-        nodeFactory.addAttribute(new Attribute<FactoryReference>("nextNode", new FactoryReference(nextNode)));
+        nodeFactory.addAttribute(new Attribute<FactoryReference>("nextNode", new FactoryReference(fm, nextNode)));
 
         return nodeFactory;
     }

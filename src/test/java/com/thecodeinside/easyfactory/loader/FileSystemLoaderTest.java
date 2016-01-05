@@ -38,7 +38,7 @@ public class FileSystemLoaderTest {
 
         FactoryReference factoryReference = (FactoryReference) attribute.getValue();
         assertNotNull(factoryReference);
-        assertEquals("address", factoryReference.getReference());
+        assertEquals("address", factoryReference.getReferences()[0]);
     }
 
     @Test

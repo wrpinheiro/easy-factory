@@ -5,8 +5,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.stream.Stream;
-
 import org.junit.Test;
 
 import com.thecodeinside.easyfactory.FactoryReference;
@@ -83,20 +81,19 @@ public class FileSystemLoaderTest {
         assertNotNull(user);
         assertEquals(3452904, user.getId().intValue());
         assertEquals("john.doe", user.getNickname());
-        Stream.of(user.getPermissions()).forEach(System.out::println);
         assertArrayEquals(new String[] {"operations", "remote", "joker"}, user.getPermissions());
     }
     
     @Test
-    public void loadFactories_must_build_a_factory_with_an_array_of_integers_and_force_coercion() {
+    public void loadFactories_must_build_a_factory_with_an_array_of_integers() {
         FileSystemLoader newFsLoader = new FileSystemLoader();
         newFsLoader.loadFactories();
 
-        User user = newFsLoader.factoryManager().build("user_with_integer_permissions");
+        User user = newFsLoader.factoryManager().build("user_with_flags");
 
         assertNotNull(user);
         assertEquals(3452904, user.getId().intValue());
         assertEquals("john.doe", user.getNickname());
-        assertArrayEquals(new String[] {"10", "20", "-5"}, user.getPermissions());
+        assertArrayEquals(new int[] {10, 20, -5}, user.getFlags());
     }
 }

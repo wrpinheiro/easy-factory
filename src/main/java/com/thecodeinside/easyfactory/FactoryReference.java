@@ -1,5 +1,10 @@
 package com.thecodeinside.easyfactory;
 
+import static java.util.stream.Collectors.toList;
+
+import java.util.List;
+import java.util.stream.Stream;
+
 import com.thecodeinside.easyfactory.core.FactoryManager;
 
 /**
@@ -21,8 +26,13 @@ public class FactoryReference {
         return references;
     }
     
-    public Object loadReference() {
-        String referenceName = getReferences()[0];
+    public List<Object> loadReferences() {
+        List<Object> instances = Stream.of(this.references).map(this::creteOneReference).collect(toList());
+        
+        return instances;
+    }
+
+    private Object creteOneReference(String referenceName) {
         Object referenceInstance = factoryManager.context().instance(referenceName);
         if (referenceInstance == null) {
             referenceInstance = factoryManager.build(referenceName);
@@ -30,5 +40,4 @@ public class FactoryReference {
         
         return referenceInstance;
     }
-
 }

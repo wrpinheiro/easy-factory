@@ -10,6 +10,7 @@ public class User {
     private boolean admin;
     private Address address;
     private String[] permissions;
+    private int[] flags;
 
     public void setId(Integer id) {
         this.id = id;
@@ -65,6 +66,14 @@ public class User {
 
     public String[] getPermissions() {
         return permissions;
+    }
+
+    public int[] getFlags() {
+        return flags;
+    }
+
+    public void setFlags(int[] flags) {
+        this.flags = flags;
     }
 
     @Override

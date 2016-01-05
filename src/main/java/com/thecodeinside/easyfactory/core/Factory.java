@@ -1,11 +1,18 @@
 package com.thecodeinside.easyfactory.core;
 
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 
 import com.thecodeinside.easyfactory.FactoryReference;
 
@@ -21,7 +28,7 @@ public class Factory<T> {
 
     public Factory(FactoryManager factoryManager, String name) {
         this.factoryManager = factoryManager;
-        
+
         this.name = name;
     }
 
@@ -48,11 +55,11 @@ public class Factory<T> {
     public void setFullQualifiedClassName(String fqClassName) {
         this.fullQualifiedClassName = fqClassName;
     }
-    
+
     public String setFullQualifiedClassName() {
         return fullQualifiedClassName;
     }
-    
+
     @SuppressWarnings("unchecked")
     public T build() {
         try {
@@ -66,10 +73,10 @@ public class Factory<T> {
             factoryManager.context().addInstance(this.getName(), instance);
 
             attributes.values().stream().filter(Attribute::isReference).forEach(attribute -> {
-                Object reference = ((FactoryReference)attribute.getValue()).loadReference();
+                List<Object> references = ((FactoryReference) attribute.getValue()).loadReferences();
 
-                if (reference != null) {
-                    setBeanProperty(instance, attribute.getId(), reference);
+                if (references != null) {
+                    setBeanProperty(instance, attribute.getId(), references);
                 }
             });
 
@@ -81,10 +88,42 @@ public class Factory<T> {
         return null;
     }
 
+    private boolean canAssign(Class<?> targetType, Object value) {
+        return value == null || targetType.isAssignableFrom(value.getClass()) || ConvertUtils.lookup(value.getClass(), targetType) != null;
+    }
+    
     private void setBeanProperty(T instance, String property, Object value) {
         try {
-            BeanUtils.setProperty(instance, property, value);
-        } catch (IllegalAccessException | InvocationTargetException ex) {
+
+            Object targetValue = null;
+
+            PropertyDescriptor targetPropertyDescriptor = PropertyUtils.getPropertyDescriptor(instance, property);
+
+            if (canAssign(targetPropertyDescriptor.getPropertyType(), value)) {
+                targetValue = value;
+            } else {
+                if (value instanceof Collection) {
+                    Collection<?> valueCollection = (Collection<?>) value;
+                    
+                    if (!valueCollection.isEmpty()) {
+                        Object first = valueCollection.iterator().next();
+                        
+                        if (canAssign(targetPropertyDescriptor.getPropertyType(), first)) {
+                            targetValue = first;
+                        } else {
+                            if (targetPropertyDescriptor.getPropertyType().isAssignableFrom(Set.class)) {
+                                targetValue = new HashSet<Object>(valueCollection);
+                            } else if (targetPropertyDescriptor.getPropertyType().isArray()) {
+                                targetValue = valueCollection.toArray(new Object[0]);
+                            }
+                        }
+                    }
+                }
+            }
+
+            BeanUtils.setProperty(instance, property, targetValue);
+
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
             ex.printStackTrace();
         }
     }

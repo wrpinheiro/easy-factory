@@ -1,0 +1,6 @@
+factory user_with_flags, class com.thecodeinside.easyfactory.core.model.User
+    id: 3452904
+    nickname: "john.doe"
+    name: "John Doe"
+    flags: [10, 20, -5]
+end

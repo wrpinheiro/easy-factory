@@ -1,7 +1,6 @@
 package com.thecodeinside.easyfactory.parser.impl;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import com.thecodeinside.easyfactory.FactoryReference;
@@ -74,7 +73,7 @@ public class EasyFactoryListenerImpl extends EasyFactoryBaseListener {
 
     @Override
     public void enterArrayAttributeDecl(EasyFactoryParser.ArrayAttributeDeclContext ctx) {
-        final List<Object> literals = new LinkedList<>();
+        final List<Object> literals = new ArrayList<>();
 
         ctx.literalList().literal().forEach(literal -> literals.add(literalToObject(literal)));
 

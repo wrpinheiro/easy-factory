@@ -6,10 +6,10 @@ import java.util.stream.Collectors;
 
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import com.thecodeinside.easyfactory.FactoryReference;
 import com.thecodeinside.easyfactory.core.Attribute;
 import com.thecodeinside.easyfactory.core.Factory;
 import com.thecodeinside.easyfactory.core.FactoryManager;
-import com.thecodeinside.easyfactory.core.FactoryReference;
 import com.thecodeinside.easyfactory.parser.EasyFactoryBaseListener;
 import com.thecodeinside.easyfactory.parser.EasyFactoryParser;
 import com.thecodeinside.easyfactory.parser.EasyFactoryParser.ClassDeclContext;

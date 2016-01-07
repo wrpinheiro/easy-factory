@@ -7,10 +7,10 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import com.thecodeinside.easyfactory.FactoryReference;
 import com.thecodeinside.easyfactory.core.Attribute;
 import com.thecodeinside.easyfactory.core.Factory;
 import com.thecodeinside.easyfactory.core.FactoryManager;
-import com.thecodeinside.easyfactory.core.FactoryReference;
 import com.thecodeinside.easyfactory.core.model.User;
 
 public class FileSystemLoaderTest {

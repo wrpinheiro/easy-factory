@@ -1,5 +1,7 @@
 package com.thecodeinside.easyfactory.core;
 
+import com.thecodeinside.easyfactory.FactoryReference;
+
 /**
  * A factory's attribute.
  *

@@ -14,6 +14,8 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 
+import com.thecodeinside.easyfactory.FactoryReference;
+
 /**
  * @author Wellington Pinheiro <wellington.pinheiro@gmail.com>
  */
@@ -54,7 +56,7 @@ public class Factory<T> {
         this.fullQualifiedClassName = fqClassName;
     }
 
-    public String getFullQualifiedClassName() {
+    public String setFullQualifiedClassName() {
         return fullQualifiedClassName;
     }
 

@@ -1,11 +1,10 @@
-package com.thecodeinside.easyfactory;
+package com.thecodeinside.easyfactory.core;
 
+import static java.util.Collections.nCopies;
 import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 import java.util.stream.Stream;
-
-import com.thecodeinside.easyfactory.core.FactoryManager;
 
 /**
  * A reference to another factory. This allows relationships between model created by the factories.
@@ -20,6 +19,10 @@ public class FactoryReference {
     public FactoryReference(FactoryManager factoryManager, String... references) {
         this.factoryManager = factoryManager;
         this.references = references;
+    }
+    
+    public FactoryReference(FactoryManager factoryManager, String reference, int numberOfDuplicates) {
+        this(factoryManager, nCopies(numberOfDuplicates, reference).toArray(new String[0]));
     }
 
     public String[] getReferences() {
@@ -37,7 +40,7 @@ public class FactoryReference {
         if (referenceInstance == null) {
             referenceInstance = factoryManager.build(referenceName);
         }
-        
+
         return referenceInstance;
     }
 }

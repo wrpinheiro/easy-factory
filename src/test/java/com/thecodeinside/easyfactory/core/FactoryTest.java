@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.thecodeinside.easyfactory.FactoryReference;
 import com.thecodeinside.easyfactory.core.model.Address;
 import com.thecodeinside.easyfactory.core.model.Node;
 import com.thecodeinside.easyfactory.core.model.User;

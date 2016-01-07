@@ -23,7 +23,7 @@ public class FactoryManagerTest {
 
         assertNotNull(otherUserFactory);
         assertEquals("user", otherUserFactory.getName());
-        assertEquals(User.class.getName(), otherUserFactory.setFullQualifiedClassName());
+        assertEquals(User.class.getName(), otherUserFactory.getFullQualifiedClassName());
         assertEquals(15423, otherUserFactory.getAttributes().get("id").getValue());
     }
 }

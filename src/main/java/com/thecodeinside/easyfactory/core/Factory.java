@@ -2,6 +2,7 @@ package com.thecodeinside.easyfactory.core;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -88,10 +89,25 @@ public class Factory<T> {
         return null;
     }
 
-    private boolean canAssign(Class<?> targetType, Object value) {
-        return value == null || targetType.isAssignableFrom(value.getClass()) || ConvertUtils.lookup(value.getClass(), targetType) != null;
+    public List<T> build(int numberOfDuplicates) {
+        List<T> instances = new ArrayList<>();
+
+        for (int i = 0; i < numberOfDuplicates; i++) {
+            T instance = build();
+
+            instances.add(instance);
+
+            factoryManager.context().removeInstance(this.getName(), instance);
+        }
+
+        return instances;
     }
-    
+
+    private boolean canAssign(Class<?> targetType, Object value) {
+        return value == null || targetType.isAssignableFrom(value.getClass())
+                || ConvertUtils.lookup(value.getClass(), targetType) != null;
+    }
+
     private void setBeanProperty(T instance, String property, Object value) {
         try {
 
@@ -107,10 +123,10 @@ public class Factory<T> {
             } else {
                 if (value instanceof Collection) {
                     Collection<?> valueCollection = (Collection<?>) value;
-                    
+
                     if (!valueCollection.isEmpty()) {
                         Object first = valueCollection.iterator().next();
-                        
+
                         if (canAssign(targetPropertyDescriptor.getPropertyType(), first)) {
                             targetValue = first;
                         } else {

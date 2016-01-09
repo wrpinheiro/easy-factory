@@ -25,6 +25,13 @@ public final class FactoryContext {
         }
         forceAddInstance(factoryName, o);
     }
+    
+    public void removeInstance(String factoryName, Object o) {
+        Map<String, Object> factoryManagerContext = factoryContextTl.get().get(factoryManager);
+        if (factoryManagerContext != null) {
+            factoryManagerContext.remove(factoryName);
+        }
+    }
 
     private void forceAddInstance(String factoryName, Object o) {
         Map<String, Object> factoryManagerContext = factoryContextTl.get().get(factoryManager);

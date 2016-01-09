@@ -19,6 +19,14 @@ import com.thecodeinside.easyfactory.parser.EasyFactoryLexer;
 import com.thecodeinside.easyfactory.parser.EasyFactoryParser;
 import com.thecodeinside.easyfactory.parser.impl.EasyFactoryListenerImpl;
 
+/**
+ * Class responsible to load all factories configuration stored in the file system. By default, it will load all
+ * files in the directory <code>factories</code> with extension <code>ef</code>.
+ * 
+ * A new factory manager will be created to store all factories loaded.
+ *
+ * @author Wellington Pinheiro <wellington.pinheiro@gmail.com>
+ */
 public class FileSystemLoader {
     /**
      * The factories files' directory 
@@ -29,9 +37,9 @@ public class FileSystemLoader {
      * The factory files' extension
      */
     private static final String FACTORY_FILE_EXTENSION = "ef";
-    
+
     private FactoryManager factoryManager;
-    
+
     public FileSystemLoader() {
         factoryManager = new FactoryManager("FS Loaded Factory Manager");
     }
@@ -39,7 +47,7 @@ public class FileSystemLoader {
     private boolean isValidFactoryFile(Path path) {
         return !path.toFile().isDirectory() && path.toFile().getAbsolutePath().endsWith(FACTORY_FILE_EXTENSION);
     }
-    
+
     private EasyFactoryParser parse(URI factoryFile) {
         try (InputStream sr = factoryFile.toURL().openStream()) {
             ANTLRInputStream input = new ANTLRInputStream(sr);
@@ -51,14 +59,17 @@ public class FileSystemLoader {
         }
     }
 
+    /**
+     * Load all files with extension <code>ef</code> in directory <code>factories</code>.
+     */
     public synchronized void loadFactories() {
         try (Stream<Path> pathStream = Files.walk(Paths.get(ClassLoader.getSystemResource(DEFAULT_FACTORIES_DIR).toURI()))) {
             pathStream.filter(this::isValidFactoryFile).map(path -> path.toUri()).forEach(factoryFile -> {
                 EasyFactoryParser parser = parse(factoryFile);
                 ParseTree tree = parser.factoriesDecl();
                 ParseTreeWalker walker = new ParseTreeWalker();
-                
-               EasyFactoryListenerImpl listener = new EasyFactoryListenerImpl(factoryManager);
+
+                EasyFactoryListenerImpl listener = new EasyFactoryListenerImpl(factoryManager);
 
                 walker.walk(listener, tree);
 
@@ -69,6 +80,10 @@ public class FileSystemLoader {
         }
     }
 
+    /**
+     * Return the factory manager created.
+     * @return
+     */
     public FactoryManager factoryManager() {
         return factoryManager;
     }

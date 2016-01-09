@@ -16,7 +16,7 @@ public class FactoryReference {
 
     private FactoryManager factoryManager;
     private String[] references;
-    
+
     public FactoryReference(FactoryManager factoryManager, String... references) {
         this.factoryManager = factoryManager;
         this.references = references;
@@ -25,10 +25,10 @@ public class FactoryReference {
     public String[] getReferences() {
         return references;
     }
-    
+
     public List<Object> loadReferences() {
         List<Object> instances = Stream.of(this.references).map(this::creteOneReference).collect(toList());
-        
+
         return instances;
     }
 
@@ -37,7 +37,7 @@ public class FactoryReference {
         if (referenceInstance == null) {
             referenceInstance = factoryManager.build(referenceName);
         }
-        
+
         return referenceInstance;
     }
 }

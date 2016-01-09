@@ -14,6 +14,12 @@ import com.thecodeinside.easyfactory.parser.EasyFactoryBaseListener;
 import com.thecodeinside.easyfactory.parser.EasyFactoryParser;
 import com.thecodeinside.easyfactory.parser.EasyFactoryParser.ClassDeclContext;
 
+/**
+ * An ANTRL implementation of listener. This class is used to create instances of factories based on the AST
+ * generated for each factory defined in the <code>ef</code> files.
+ * 
+ * @author Wellington Pinheiro <wellington.pinheiro@gmail.com>
+ */
 public class EasyFactoryListenerImpl extends EasyFactoryBaseListener {
     private List<Factory<?>> factories;
     private Factory<?> factory;
@@ -70,8 +76,7 @@ public class EasyFactoryListenerImpl extends EasyFactoryBaseListener {
 
     @Override
     public void enterBuildFactoryAttributeDecl(EasyFactoryParser.BuildFactoryAttributeDeclContext ctx) {
-        String[] factoriesReferences = ctx.identifierListDecl().Identifier().stream().map(TerminalNode::getText)
-                .collect(Collectors.toList()).toArray(new String[0]);
+        String[] factoriesReferences = ctx.identifierListDecl().Identifier().stream().map(TerminalNode::getText).collect(Collectors.toList()).toArray(new String[0]);
 
         factory.addAttribute(new Attribute<Object>(ctx.Identifier().getText(), new FactoryReference(factoryManager, factoriesReferences)));
     }

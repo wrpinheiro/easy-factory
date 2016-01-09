@@ -18,13 +18,31 @@ import org.apache.commons.beanutils.PropertyUtils;
 import com.thecodeinside.easyfactory.FactoryReference;
 
 /**
+ * A factory representing an instance with its attributes.
+ * 
  * @author Wellington Pinheiro <wellington.pinheiro@gmail.com>
+ *
+ * @param <T> type of instance created by this factory.
  */
 public class Factory<T> {
+    /**
+     * The name of the factory. This name should be unique for each Factory Manager.
+     */
     private String name;
+
+    /**
+     * The type of the instance that will be created by this factory.
+     */
     private String fullQualifiedClassName;
 
+    /**
+     * Attributes that will be populated in the instance created by this factory.
+     */
     private Map<String, Attribute<?>> attributes = new HashMap<>();
+
+    /**
+     * The manager of this factory.
+     */
     private FactoryManager factoryManager;
 
     public Factory(FactoryManager factoryManager, String name) {
@@ -61,6 +79,11 @@ public class Factory<T> {
         return fullQualifiedClassName;
     }
 
+    /**
+     * Create an instance based on the definitions of this factory.
+     * 
+     * @return an instance of type T
+     */
     @SuppressWarnings("unchecked")
     public T build() {
         try {
@@ -89,6 +112,13 @@ public class Factory<T> {
         return null;
     }
 
+    /**
+     * Return a list containing <code>numberOfDuplicates</code> instances.
+     * 
+     * @param numberOfDuplicates the number of instances to be created.
+     * 
+     * @return a list of type T
+     */
     public List<T> build(int numberOfDuplicates) {
         List<T> instances = new ArrayList<>();
 

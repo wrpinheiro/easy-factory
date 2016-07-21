@@ -1,11 +1,5 @@
 package com.thecodeinside.easyfactory.parser.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.antlr.v4.runtime.tree.TerminalNode;
-
 import com.thecodeinside.easyfactory.FactoryReference;
 import com.thecodeinside.easyfactory.core.Attribute;
 import com.thecodeinside.easyfactory.core.Factory;
@@ -13,6 +7,11 @@ import com.thecodeinside.easyfactory.core.FactoryManager;
 import com.thecodeinside.easyfactory.parser.EasyFactoryBaseListener;
 import com.thecodeinside.easyfactory.parser.EasyFactoryParser;
 import com.thecodeinside.easyfactory.parser.EasyFactoryParser.ClassDeclContext;
+import org.antlr.v4.runtime.tree.TerminalNode;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * An ANTRL implementation of listener. This class is used to create instances of factories based on the AST
@@ -24,6 +23,7 @@ public class EasyFactoryListenerImpl extends EasyFactoryBaseListener {
     private List<Factory<?>> factories;
     private Factory<?> factory;
 
+    private String attributeIdentifier;
     private Object literal;
     private FactoryManager factoryManager;
 
@@ -58,10 +58,10 @@ public class EasyFactoryListenerImpl extends EasyFactoryBaseListener {
     }
 
     private Object literalToObject(EasyFactoryParser.LiteralContext ctx) {
-        if (ctx.StringLiteral() != null) {
-            literal = removeQuotes(ctx.StringLiteral().getText());
-        } else if (ctx.IntegerLiteral() != null) {
-            literal = Integer.valueOf(ctx.IntegerLiteral().getText());
+        if (ctx.stringLiteral() != null) {
+            literal = removeQuotes(ctx.stringLiteral().StringLiteral().getText());
+        } else if (ctx.integerLiteral() != null) {
+            literal = Integer.valueOf(ctx.integerLiteral().IntegerLiteral().getText());
         } else {
             literal = null;
         }
@@ -70,23 +70,30 @@ public class EasyFactoryListenerImpl extends EasyFactoryBaseListener {
     }
 
     @Override
-    public void enterLiteralAttributeDecl(EasyFactoryParser.LiteralAttributeDeclContext ctx) {
-        factory.addAttribute(new Attribute<Object>(ctx.Identifier().getText(), literalToObject(ctx.literal())));
+    public void enterAttributeDecl(EasyFactoryParser.AttributeDeclContext ctx) {
+        attributeIdentifier = ctx.Identifier().getText();
+    }
+
+    @Override
+    public void enterLiteral(EasyFactoryParser.LiteralContext ctx) {
+        factory.addAttribute(new Attribute<Object>(attributeIdentifier, literalToObject(ctx)));
+
+        super.enterLiteral(ctx);
     }
 
     @Override
     public void enterBuildFactoryAttributeDecl(EasyFactoryParser.BuildFactoryAttributeDeclContext ctx) {
         String[] factoriesReferences = ctx.identifierListDecl().Identifier().stream().map(TerminalNode::getText).collect(Collectors.toList()).toArray(new String[0]);
 
-        factory.addAttribute(new Attribute<Object>(ctx.Identifier().getText(), new FactoryReference(factoryManager, factoriesReferences)));
+        factory.addAttribute(new Attribute<Object>(attributeIdentifier, new FactoryReference(factoryManager, factoriesReferences)));
     }
 
-    @Override
-    public void enterArrayAttributeDecl(EasyFactoryParser.ArrayAttributeDeclContext ctx) {
-        final List<Object> literals = new ArrayList<>();
-
-        ctx.literalListDecl().literal().forEach(literal -> literals.add(literalToObject(literal)));
-
-        factory.addAttribute(new Attribute<Object>(ctx.Identifier().getText(), literals));
-    }
+//    @Override
+//    public void enterArrayAttributeDecl(EasyFactoryParser.ArrayAttributeDeclContext ctx) {
+//        final List<Object> literals = new ArrayList<>();
+//
+//        ctx.literalListDecl().literal().forEach(literal -> literals.add(literalToObject(literal)));
+//
+//        factory.addAttribute(new Attribute<Object>(ctx.Identifier().getText(), literals));
+//    }
 }

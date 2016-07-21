@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.thecodeinside.easyfactory.FactoryReference;
@@ -87,8 +88,8 @@ public class FileSystemLoaderTest {
         assertNotNull(user.getAddress());
         assertEquals("Mountain St", user.getAddress().getStreet());
     }
-    
-    @Test
+
+    @Ignore("waiting for new array implementation")
     public void loadFactories_must_build_a_factory_with_an_array_of_strings() {
         FileSystemLoader newFsLoader = new FileSystemLoader();
         newFsLoader.loadFactories();
@@ -101,7 +102,7 @@ public class FileSystemLoaderTest {
         assertArrayEquals(new String[] {"operations", "remote", "joker"}, user.getPermissions());
     }
     
-    @Test
+    @Ignore("waiting for new array implementation")
     public void loadFactories_must_build_a_factory_with_an_array_of_integers() {
         FileSystemLoader newFsLoader = new FileSystemLoader();
         newFsLoader.loadFactories();

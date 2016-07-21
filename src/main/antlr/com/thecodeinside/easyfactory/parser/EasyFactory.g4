@@ -21,23 +21,30 @@ attributeListDecl
     ;
 
 attributeDecl
-    :   literalAttributeDecl
-    |   buildFactoryAttributeDecl
-    |   arrayAttributeDecl
-    ;
-    
-literalAttributeDecl
-    : Identifier ':' literal
-    ;
-    
-literal
-    :   IntegerLiteral
-    |   StringLiteral
-    |   'null'
+    :   Identifier ':' literal
     ;
 
-arrayAttributeDecl
-    :   Identifier ':' '[' literalListDecl? ','? ']'
+literal
+    :   integerLiteral
+    |   stringLiteral
+    |   nullLiteral
+    |   buildFactoryAttributeDecl
+    ;
+
+integerLiteral
+    :   IntegerLiteral
+    ;
+
+stringLiteral
+    :   StringLiteral
+    ;
+
+nullLiteral
+    :   'null'
+    ;
+
+arrayLiteral
+    :   '[' literalListDecl? ','? ']'
     ;
 
 literalListDecl
@@ -76,7 +83,7 @@ StringCharacter
     ;
 
 buildFactoryAttributeDecl
-    :   Identifier ':' 'build' '(' identifierListDecl ')'
+    :   'build' '(' identifierListDecl ')'
     ;
 
 identifierListDecl

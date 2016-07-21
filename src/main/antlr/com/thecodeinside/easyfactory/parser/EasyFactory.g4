@@ -21,14 +21,18 @@ attributeListDecl
     ;
 
 attributeDecl
-    :   Identifier ':' literal
+    :   Identifier ':' expression
     ;
+
+expression
+   :   literal
+   |   buildFactoryAttributeDecl
+   ;
 
 literal
     :   integerLiteral
     |   stringLiteral
     |   nullLiteral
-    |   buildFactoryAttributeDecl
     ;
 
 integerLiteral

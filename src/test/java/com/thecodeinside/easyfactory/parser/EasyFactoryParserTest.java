@@ -35,12 +35,12 @@ public class EasyFactoryParserTest {
 
     private void testLiteralAttribute(AttributeDeclContext ctx, String id, String value) {
         assertEquals(id, ctx.Identifier().getText());
-        testLiteral(value, ctx.literal().stringLiteral().getText());
+        testLiteral(value, ctx.expression().literal().stringLiteral().getText());
     }
 
     private void testLiteralAttribute(AttributeDeclContext ctx, String id, Integer value) {
         assertEquals(id, ctx.Identifier().getText());
-        testLiteral(value, ctx.literal().integerLiteral().getText());
+        testLiteral(value, ctx.expression().literal().integerLiteral().getText());
     }
 
 //    private void testArrayAttribute(AttributeDeclContext ctx, String id, String[] values) {
@@ -100,7 +100,7 @@ public class EasyFactoryParserTest {
         assertEquals("user_with_address_relation", userFactory.Identifier().getText());
 
         AttributeDeclContext addressReference = userFactory.attributeListDecl().attributeDecl(4);
-        BuildFactoryAttributeDeclContext buildFactoryAttributeDeclContext = addressReference.literal().buildFactoryAttributeDecl();
+        BuildFactoryAttributeDeclContext buildFactoryAttributeDeclContext = addressReference.expression().buildFactoryAttributeDecl();
 
         assertEquals("address", addressReference.Identifier().getText());
 

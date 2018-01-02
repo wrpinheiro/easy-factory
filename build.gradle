@@ -1,25 +1,30 @@
-apply plugin: 'antlr'
-apply plugin: 'java'
-apply plugin: 'maven'
-apply plugin: 'pmd'
 
-repositories {
-    mavenLocal()
-    mavenCentral()
+subprojects {
+
+    apply plugin: 'antlr'
+    apply plugin: 'java'
+    apply plugin: 'maven'
+    apply plugin: 'pmd'
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    group = 'com.thecodeinside.easyfactory'
+    version = '0.0.1-SNAPSHOT'
+
+    sourceCompatibility = 1.8
+
+    dependencies {
+        antlr 'org.antlr:antlr4:4.5.1-1'
+        compile 'commons-beanutils:commons-beanutils:1.9.2'
+        testCompile 'org.antlr:antlr4-runtime:4.5.1-1'
+        testCompile 'junit:junit:4.12'
+    }
 }
 
-group = 'com.thecodeinside.easyfactory'
-version = '0.0.1-SNAPSHOT'
-
-sourceCompatibility = 1.8
-
-dependencies {
-    antlr 'org.antlr:antlr4:4.5.1-1'
-    compile 'commons-beanutils:commons-beanutils:1.9.2'
-    testCompile 'org.antlr:antlr4-runtime:4.5.1-1'
-    testCompile 'junit:junit:4.12'
-}
-
+/*
 pmd {
     toolVersion = '5.4.1'
     sourceSets = [sourceSets.main]
@@ -51,7 +56,4 @@ pmd {
 		'java-unusedcode'
     ]
 }
-
-task wrapper(type: Wrapper) {
-  gradleVersion = '2.8'
-}
+*/

@@ -1,18 +1,17 @@
-package com.thecodeinside.easyfactory.loader;
+package com.thecodeinside.easyfactory.factorygirl.loader;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Ignore;
-import org.junit.Test;
-
-import com.thecodeinside.easyfactory.FactoryReference;
 import com.thecodeinside.easyfactory.core.Attribute;
 import com.thecodeinside.easyfactory.core.Factory;
 import com.thecodeinside.easyfactory.core.FactoryManager;
-import com.thecodeinside.easyfactory.core.model.User;
+import com.thecodeinside.easyfactory.core.FactoryReference;
+import com.thecodeinside.easyfactory.factorygirl.model.User;
+import org.junit.Ignore;
+import org.junit.Test;
 
 public class FileSystemLoaderTest {
     private static FactoryManager factoryManager;

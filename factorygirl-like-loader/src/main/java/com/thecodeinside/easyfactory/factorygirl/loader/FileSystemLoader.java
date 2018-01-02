@@ -1,4 +1,4 @@
-package com.thecodeinside.easyfactory.loader;
+package com.thecodeinside.easyfactory.factorygirl.loader;
 
 import java.io.IOException;
 import java.io.InputStream;

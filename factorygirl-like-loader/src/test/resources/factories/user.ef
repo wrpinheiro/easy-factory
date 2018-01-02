@@ -1,4 +1,4 @@
-factory user, class com.thecodeinside.easyfactory.core.model.User
+factory user, class com.thecodeinside.easyfactory.factorygirl.model.User
   id: 1234
   nickname: "joseph"
   email: "joseph@josephs.com"

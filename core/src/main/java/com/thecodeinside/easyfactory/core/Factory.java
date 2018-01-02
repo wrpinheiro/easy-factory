@@ -15,8 +15,6 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 
-import com.thecodeinside.easyfactory.FactoryReference;
-
 /**
  * A factory representing an instance with its attributes.
  * 

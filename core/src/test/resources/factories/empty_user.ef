@@ -1,2 +1,0 @@
-factory empty_user, class com.thecodeinside.easyfactory.core.model.User
-end

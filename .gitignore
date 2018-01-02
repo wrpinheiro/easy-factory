@@ -17,3 +17,7 @@ build/
 .classpath
 .project
 .settings/
+
+.gradletasknamecache
+
+out/

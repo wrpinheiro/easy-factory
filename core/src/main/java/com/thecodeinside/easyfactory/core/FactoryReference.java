@@ -1,4 +1,4 @@
-package com.thecodeinside.easyfactory;
+package com.thecodeinside.easyfactory.core;
 
 import static java.util.stream.Collectors.toList;
 

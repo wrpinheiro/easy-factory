@@ -1,4 +1,4 @@
-factory simple_user, class com.thecodeinside.easyfactory.core.model.User
+factory simple_user, class com.thecodeinside.easyfactory.factorygirl.model.User
     id: 10203040
     nickname: "john.doe"
     email: "john.doe@doe.com"

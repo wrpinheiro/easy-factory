@@ -1,0 +1,13 @@
+factory address, class com.thecodeinside.easyfactory.factorygirl.model.Address
+    street: "Mountain St"
+    number: 46
+end
+
+factory user_with_address_relation, class com.thecodeinside.easyfactory.factorygirl.model.User
+    id: 31318080
+    nickname: "john.doe"
+    email: "john.doe@doe.com"
+    name: "John Doe"
+
+    address: build(address)
+end

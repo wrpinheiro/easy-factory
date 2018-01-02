@@ -1,5 +1,7 @@
-package com.thecodeinside.easyfactory.parser;
+package com.thecodeinside.easyfactory.factorygirl.parser.impl;
 
+import com.thecodeinside.easyfactory.parser.EasyFactoryLexer;
+import com.thecodeinside.easyfactory.parser.EasyFactoryParser;
 import com.thecodeinside.easyfactory.parser.EasyFactoryParser.*;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;

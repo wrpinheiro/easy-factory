@@ -1,0 +1,18 @@
+factory home_address, class com.thecodeinside.easyfactory.factorygirl.model.Address
+    street: "Mountain St."
+    number: 46
+end
+
+factory work_address, class com.thecodeinside.easyfactory.factorygirl.model.Address
+    street: "Clide St."
+    number: 46
+end
+
+factory user_with_addresses_relation, class com.thecodeinside.easyfactory.factorygirl.model.UserWithAddress
+    id: 31318080
+    nickname: "john.doe"
+    email: "john.doe@doe.com"
+    name: "John Doe"
+
+    addresses: build(home_address, work_address)
+end

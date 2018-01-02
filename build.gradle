@@ -1,7 +1,6 @@
 
 subprojects {
 
-    apply plugin: 'antlr'
     apply plugin: 'java'
     apply plugin: 'maven'
     apply plugin: 'pmd'
@@ -17,9 +16,7 @@ subprojects {
     sourceCompatibility = 1.8
 
     dependencies {
-        antlr 'org.antlr:antlr4:4.5.1-1'
         compile 'commons-beanutils:commons-beanutils:1.9.2'
-        testCompile 'org.antlr:antlr4-runtime:4.5.1-1'
         testCompile 'junit:junit:4.12'
     }
 }

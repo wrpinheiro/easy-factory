@@ -1,6 +1,6 @@
 package com.thecodeinside.easyfactory.parser.impl;
 
-import com.thecodeinside.easyfactory.FactoryReference;
+import com.thecodeinside.easyfactory.core.FactoryReference;
 import com.thecodeinside.easyfactory.core.Attribute;
 import com.thecodeinside.easyfactory.core.Factory;
 import com.thecodeinside.easyfactory.core.FactoryManager;

@@ -1,4 +1,4 @@
-factory user_with_permissions, class com.thecodeinside.easyfactory.core.model.User
+factory user_with_permissions, class com.thecodeinside.easyfactory.factorygirl.model.User
     id: 3452904
     nickname: "john.doe"
     name: "John Doe"
